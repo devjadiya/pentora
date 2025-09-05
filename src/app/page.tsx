@@ -6,7 +6,6 @@ import MoreFeatures from "./components/MoreFeatures";
 import Templates from "./components/Templates";
 import CTA from "./components/CTA";
 import Footer from "./components/Footer";
-import { TracingBeam } from "./components/TracingBeam"; // <-- IMPORT THE COMPONENT
 
 export default function Home() {
   return (
@@ -14,18 +13,12 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        {/*
-          This is the crucial part: Wrap all sections after the Hero
-          in the TracingBeam component to get the scroll animation.
-        */}
-        <TracingBeam>
           <Clients />
           <Features />
           <MoreFeatures />
           <Templates />
           <CTA />
           <Footer />
-        </TracingBeam>
       </main>
     </div>
   );

@@ -1,10 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  BarChart, Book, Briefcase, FileText, GitBranch, LifeBuoy, Rocket, Shield 
+  BarChart, Book, Briefcase, FileText, GitBranch, LifeBuoy, Rocket, Shield
 } from 'lucide-react';
+import AnimatedHamburgerIcon from './AnimatedHamburgerIcon';
+import MobileMenu from './MobileMenu';
 
 const menuItems = {
   product: [
@@ -37,8 +39,8 @@ const DropdownMenu = ({ items }: { items: { href: string; title: string; descrip
     className="absolute top-full mt-2 w-max max-w-lg bg-[#100D1B] rounded-lg border border-white/10 shadow-lg p-4"
   >
     <div className="grid grid-cols-2 gap-4">
-      {items.map((item) => (
-        <Link key={item.href} href={item.href} className="block p-3 rounded-md hover:bg-white/5">
+      {items.map((item, index) => (
+        <Link key={item.title + index} href={item.href} className="block p-3 rounded-md hover:bg-white/5">
           <div className="flex items-center space-x-3">
             <div className="text-purple-400">{item.icon}</div>
             <div>
@@ -53,29 +55,49 @@ const DropdownMenu = ({ items }: { items: { href: string; title: string; descrip
 );
 
 const Navbar = () => {
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeDropdowns, setActiveDropdowns] = useState<string[]>([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMenuOpen]);
+
+  const handleMouseEnter = (key: string) => {
+    setActiveDropdowns(prev => [...prev, key]);
+  };
+
+  const handleMouseLeave = (key: string) => {
+    setActiveDropdowns(prev => prev.filter(item => item !== key));
+  };
 
   return (
     <>
-      <div className="sticky top-0 z-50 flex items-center justify-center w-full h-12 bg-gray-900 bg-opacity-70 backdrop-blur-lg text-white text-sm">
-        <Link href="#" className="hover:underline">Announcing our $14.5M Series A! Read the blog post →</Link>
+      <div className="sticky top-0 z-50 flex items-center justify-center w-full h-10 bg-black/70 backdrop-blur-lg text-white/80 px-4">
+        <Link href="#" className="hover:underline text-center text-xs sm:text-sm">Announcing our $14.5M Series A! Read the blog post →</Link>
       </div>
       <nav 
-        className="sticky top-12 z-50 flex items-center justify-center w-full h-16 bg-opacity-30 bg-[#04010E]/50 border-b border-t border-white/10 backdrop-blur-md"
-        onMouseLeave={() => setActiveDropdown(null)}
+        className="sticky top-10 z-50 flex items-center justify-center w-full h-16 bg-[#04010E]/50 border-b border-t border-white/10 backdrop-blur-md"
       >
-        <div className="flex items-center justify-between w-full h-full max-w-screen-xl px-4 mx-auto">
-          <Link href="/" className="cursor-pointer">
+        <div className="flex items-center justify-between w-full h-full max-w-screen-xl px-4 md:px-8 mx-auto">
+          <Link href="/" className="cursor-pointer z-50">
             <span className="text-2xl font-bold text-white">PENTORA</span>
           </Link>
-          <div className="hidden md:flex items-center space-x-1" onMouseLeave={() => setActiveDropdown(null)}>
+
+          <div className="hidden md:flex items-center space-x-1">
             {Object.keys(menuItems).map((key) => (
-              <div key={key} className="relative h-full flex items-center" onMouseEnter={() => setActiveDropdown(key)}>
+              <div key={key} className="relative h-full flex items-center" onMouseEnter={() => handleMouseEnter(key)} onMouseLeave={() => handleMouseLeave(key)}>
                 <button className="px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors capitalize h-full">
                   {key}
                 </button>
                 <AnimatePresence>
-                  {activeDropdown === key && (
+                  {activeDropdowns.includes(key) && (
                     <DropdownMenu items={menuItems[key as keyof typeof menuItems]} />
                   )}
                 </AnimatePresence>
@@ -88,10 +110,9 @@ const Navbar = () => {
               Pricing
             </Link>
           </div>
-          <div className="flex items-center space-x-4">
-            <Link href="#login" className="text-sm text-gray-300 hover:text-white transition-colors">
-              Login
-            </Link>
+          
+          <div className="hidden md:flex items-center space-x-4">
+            <Link href="#login" className="text-sm text-gray-300 hover:text-white transition-colors">Login</Link>
             <Link href="#demo">
               <motion.button 
                 whileHover={{ scale: 1.05 }}
@@ -102,10 +123,19 @@ const Navbar = () => {
               </motion.button>
             </Link>
           </div>
+
+          <div className="md:hidden">
+              <AnimatedHamburgerIcon isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
+          </div>
         </div>
+        
+        <AnimatePresence>
+            {isMenuOpen && <MobileMenu menuItems={menuItems} setIsMenuOpen={setIsMenuOpen} />}
+        </AnimatePresence>
       </nav>
     </>
   );
 };
 
 export default Navbar;
+
