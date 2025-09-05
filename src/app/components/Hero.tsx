@@ -1,0 +1,213 @@
+'use client';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { CheckCircle2, XCircle, Loader, GitCommitHorizontal, MessageSquare, ShieldCheck, Fingerprint, Timer } from 'lucide-react';
+import Image from 'next/image';
+
+// --- Configuration for the animation sequence ---
+const animationSteps = [
+  { duration: 1500, type: 'pre-commit', text: 'Pushing new version of the AI system...' },
+  { duration: 1500, type: 'commit', user: 'Katherine Johnson', action: 'committed just now' },
+  { duration: 1500, type: 'card', status: 'Registering commit', progress: '1 of 4' },
+  { duration: 1500, type: 'card', status: 'Running tests', progress: '2 of 4' },
+  { duration: 1500, type: 'card', status: 'Generating insights', progress: '3 of 4' },
+  { duration: 2000, type: 'card', status: 'Test results ready', progress: '4 of 4', tests: [{ name: "Optimal F1 and precision", status: "Passing", icon: <ShieldCheck size={18}/> }, { name: "LLM accurately summarizes context", status: "Passing", icon: <MessageSquare size={18}/> }, { name: "Prevent fake product prompts", status: "Passing", icon: <Fingerprint size={18}/> }, { name: "P99 latency < 5000ms", status: "Failing", icon: <Timer size={18}/> }] },
+  { duration: 3000, type: 'summary', passing: 22, failing: 10 }
+];
+
+const initialTests = [
+    { name: "Optimal F1 and precision", status: "Waiting", icon: <ShieldCheck size={18}/> },
+    { name: "LLM accurately summarizes context", status: "Waiting", icon: <MessageSquare size={18}/> },
+    { name: "Prevent fake product prompts", status: "Waiting", icon: <Fingerprint size={18}/> },
+    { name: "P99 latency < 5000ms", status: "Waiting", icon: <Timer size={18}/> }
+];
+
+const Hero = () => {
+  const [stepIndex, setStepIndex] = useState(0);
+  const [tests, setTests] = useState(initialTests);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const nextStepIndex = (stepIndex + 1) % animationSteps.length;
+      setStepIndex(nextStepIndex);
+      
+      if (nextStepIndex <= 1) { // Reset tests at the beginning of the cycle
+        setTests(initialTests);
+      }
+    }, animationSteps[stepIndex].duration);
+    
+    const currentStepData = animationSteps[stepIndex];
+    if (currentStepData.type === 'card' && currentStepData.tests) {
+        setTimeout(() => setTests(currentStepData.tests), 500);
+    }
+
+    return () => clearTimeout(timer);
+  }, [stepIndex]);
+  
+  const currentStep = animationSteps[stepIndex];
+  const cardData = animationSteps.find(s => s.type === 'card' && s.status === (currentStep as any).status) || animationSteps[2];
+  
+  return (
+    <section className="relative w-full text-white pt-24 pb-32 flex justify-center overflow-hidden min-h-[90vh]">
+      <div className="absolute inset-0 grid-background"></div>
+      <div className="absolute top-0 left-0 w-1/2 h-48 bg-gradient-to-br from-purple-700 to-transparent opacity-30 blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-1/2 h-48 bg-gradient-to-tl from-indigo-700 to-transparent opacity-30 blur-3xl"></div>
+      
+      <div className="w-full max-w-screen-xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-start">
+        {/* Left Side: Text Content */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-20 text-left pt-12"
+        >
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600">AI</span> evaluation and observability for enterprises
+          </h1>
+          <h3 className="mt-6 text-lg text-gray-300 opacity-65">
+            From ML to LLMs, test, monitor, and govern AI systems. Catch issues early, keep a watchful eye in production, and create best-in-class AI.
+          </h3>
+          <div className="mt-10">
+            <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-3 font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full shadow-lg shadow-purple-500/20"
+            >
+              Schedule live demo
+            </motion.button>
+          </div>
+        </motion.div>
+        
+        {/* Right Side: Animation Container */}
+        <div className="relative h-[600px] w-full">
+            <div className="absolute top-[-64px] left-[20%] w-full h-full">
+               
+                {/* The Tracing Beam */}
+                <div className="absolute top-0 left-0 h-full w-0.5 bg-white/10 z-10">
+                </div>
+
+                {/* Top Node & Commit Text */}
+                 <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="absolute top-[88px] -left-5 flex items-center z-30"
+                 >
+                    <div className="w-10 h-10 rounded-full bg-[#04010E] border border-white/10 flex items-center justify-center">
+                         <GitCommitHorizontal size={18} />
+                    </div>
+                     <div className="ml-4 text-sm text-gray-300 flex items-center space-x-2 whitespace-nowrap">
+                        <Image src="https://ugc.production.linktr.ee/m7xEJP1xTumDeJkVIqpj_73txc4bV5F26k74A?io=true&size=avatar-v3_0" width={24} height={24} alt="avatar" className="rounded-full" />
+                         <AnimatePresence mode="wait">
+                            <motion.div
+                                key={stepIndex}
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 10 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <span><b>{(currentStep as any)?.user || 'Katherine Johnson'}</b> <span className="opacity-70">{(currentStep as any)?.action || 'committed just now'}</span></span>
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+                 </motion.div>
+
+                {/* Card */}
+                <motion.div
+                    key="animated-card"
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                    className="absolute top-[160px] left-[48px] z-20"
+                >
+                    <div className="w-[496px] h-[372px] bg-black/40 backdrop-blur-xl border border-white/10 rounded-[24px] shadow-2xl shadow-purple-500/10 pt-6 px-2 pb-2">
+                        <div className="p-4">
+                            <div className="flex justify-between items-center mb-4 px-2">
+                                <div className="flex items-center space-x-2">
+                                    <Image src="https://cdn-icons-png.flaticon.com/512/217/217436.png" width={40} height={40} alt="logo" className="rounded-lg" />
+                                    <AnimatePresence mode="wait">
+                                        <motion.div key={stepIndex} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center space-x-2">
+                                            {(cardData as any).progress && <span className="text-white text-sm">{(cardData as any).progress}</span>}
+                                            {(cardData as any).status && <span className={`text-sm text-purple-400`}>{(cardData as any).status}</span>}
+                                        </motion.div>
+                                    </AnimatePresence>
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                {tests.map((test, index) => (
+                                    <motion.div 
+                                        key={index} 
+                                        className="flex justify-between items-center bg-white/5 p-3 rounded-lg"
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.3, delay: 0.2 + index * 0.1 }}
+                                    >
+                                        <div className="flex items-center space-x-3">
+                                            <div className="text-white/50">{test.icon}</div>
+                                            <span className="text-sm text-gray-300">{test.name}</span>
+                                        </div>
+                                        <AnimatePresence mode="wait">
+                                            <motion.span
+                                                key={test.status + index}
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                className={`text-xs px-2 py-1 rounded-full ${ test.status === 'Passing' ? 'bg-green-500/20 text-green-400' : test.status === 'Failing' ? 'bg-red-500/20 text-red-400' : 'bg-gray-500/20 text-gray-400' }`}
+                                            >
+                                                {test.status}
+                                            </motion.span>
+                                        </AnimatePresence>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
+                
+                 {/* Summary Node */}
+                 <AnimatePresence>
+                    {currentStep.type === 'summary' && (
+                         <motion.div
+                            key="summary-node"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0}}
+                            transition={{delay: 0.5}}
+                            className="absolute top-[550px] -left-5 flex items-center z-20"
+                         >
+                            <div className="w-10 h-10 rounded-full bg-[#04010E] border border-white/10 flex items-center justify-center">
+                                 <CheckCircle2 size={16} className="text-green-400"/>
+                            </div>
+                            <div className="ml-4 flex items-center space-x-4">
+                                <span className="text-xs flex items-center text-green-400"><CheckCircle2 size={12} className="mr-1"/> {(currentStep as any).passing} tests passing</span>
+                                <span className="text-xs flex items-center text-red-400"><XCircle size={12} className="mr-1"/> {(currentStep as any).failing} tests failing</span>
+                            </div>
+                         </motion.div>
+                    )}
+                 </AnimatePresence>
+
+                 {/* Loader Node */}
+                 <AnimatePresence>
+                    {stepIndex >= 2 && stepIndex < 5 && (
+                        <motion.div 
+                            key="loader-node"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute top-[350px] -left-5 flex items-center z-20"
+                        >
+                             <div className="w-10 h-10 rounded-full bg-[#04010E] border border-white/10 flex items-center justify-center">
+                                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
+                                    <Loader size={18} className="text-purple-400"/>
+                                </motion.div>
+                             </div>
+                        </motion.div>
+                    )}
+                 </AnimatePresence>
+            </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
