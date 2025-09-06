@@ -258,7 +258,7 @@ const SuperCard: React.FC = () => {
                  <motion.div initial={{opacity: 0, y: 20}} whileInView={{opacity: 1, y: 0}} viewport={{once: true, amount: 0.2}} transition={{duration: 0.8}} className="text-center my-20 md:my-32">
                     <h2 className="text-4xl md:text-5xl font-bold text-white">Our Unique Approach To Systems Implementation</h2>
                     <p className="text-gray-400 mt-4 max-w-3xl mx-auto text-lg">
-                        We offer a comprehensive suite of cybersecurity services designed to protect your organization's critical assets and reputation.
+                        We offer a comprehensive suite of cybersecurity services designed to protect your organizations critical assets and reputation.
                     </p>
                 </motion.div>
 

@@ -188,7 +188,7 @@ const CardSection = () => {
                 <p className="text-purple-400 font-semibold mb-3">WHAT ALL WE DO</p>
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4">Our Unique, Best Approach To Systems Implementation</h2>
                 <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
-                    We offer a comprehensive suite of cybersecurity services designed to protect your organization's critical assets and reputation.
+                    We offer a comprehensive suite of cybersecurity services designed to protect your organizations critical assets and reputation.
                 </p>
                 <div className="flex justify-center items-center gap-4 sm:gap-6">
                     <motion.a href="#" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-5 sm:px-6 py-3 text-sm sm:text-base font-semibold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full shadow-lg shadow-purple-500/20">
