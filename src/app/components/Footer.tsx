@@ -1,12 +1,13 @@
 import React from 'react';
+import Image from 'next/image';
 
 // SVG icon components for logos and social media links.
 // These are included directly in the file for a self-contained component.
 
 const OpenlayerLogo = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17.3137 5.625H6.68629L1.87256 12L6.68629 18.375H17.3137L22.1274 12L17.3137 5.625Z" stroke="white" strokeWidth="1.5"/>
-        <circle cx="12" cy="12" r="2.25" stroke="white" strokeWidth="1.5"/>
+        <path d="M17.3137 5.625H6.68629L1.87256 12L6.68629 18.375H17.3137L22.1274 12L17.3137 5.625Z" stroke="white" strokeWidth="1.5" />
+        <circle cx="12" cy="12" r="2.25" stroke="white" strokeWidth="1.5" />
     </svg>
 );
 
@@ -25,7 +26,7 @@ const GithubIcon = () => (
 
 const DiscordIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M19.54 5.25a2.4 2.4 0 0 0-2.4-1.5h-10.3a2.4 2.4 0 0 0-2.4 1.5L2.25 15.68a2.38 2.38 0 0 0 .88 2.53 2.43 2.43 0 0 0 2.62.13l2.81-1.59-1.21 4.5a.61.61 0 0 0 .58.75h.5a.6.6 0 0 0 .58-.42l1.62-4.83h2.52l1.62 4.83a.6.6 0 0 0 .58.42h.5a.61.61 0 0 0 .58-.75l-1.21-4.5 2.81 1.59a2.43 2.43 0 0 0 2.62-.13 2.38 2.38 0 0 0 .88-2.53zm-6.24 5.25h-2.6a.6.6 0 0 1 0-1.2h2.6a.6.6 0 0 1 0 1.2zm2.1-3.6h-6.8a.6.6 0 0 1 0-1.2h6.8a.6.6 0 1 1 0 1.2z"/>
+        <path d="M19.54 5.25a2.4 2.4 0 0 0-2.4-1.5h-10.3a2.4 2.4 0 0 0-2.4 1.5L2.25 15.68a2.38 2.38 0 0 0 .88 2.53 2.43 2.43 0 0 0 2.62.13l2.81-1.59-1.21 4.5a.61.61 0 0 0 .58.75h.5a.6.6 0 0 0 .58-.42l1.62-4.83h2.52l1.62 4.83a.6.6 0 0 0 .58.42h.5a.61.61 0 0 0 .58-.75l-1.21-4.5 2.81 1.59a2.43 2.43 0 0 0 2.62-.13 2.38 2.38 0 0 0 .88-2.53zm-6.24 5.25h-2.6a.6.6 0 0 1 0-1.2h2.6a.6.6 0 0 1 0 1.2zm2.1-3.6h-6.8a.6.6 0 0 1 0-1.2h6.8a.6.6 0 1 1 0 1.2z" />
     </svg>
 );
 
@@ -94,19 +95,22 @@ const Footer = () => {
                 <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-8">
                     {/* Left Section: Logo, Socials, and Status */}
                     <div className="flex flex-col gap-6 items-center lg:items-start text-center lg:text-left">
+
                         <a href="#" className="flex items-center gap-3">
-                            <OpenlayerLogo />
-                            <span className="text-xl font-semibold">Pentora</span>
+                            <Image
+                                src="/pentora-logo.png"
+                                alt="Pentora Logo"
+                                width={100}
+                                height={100}
+                                className="object-contain"
+                            />
                         </a>
                         <div className="flex items-center gap-4">
                             <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300" aria-label="X social media"><XIcon /></a>
                             <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300" aria-label="Discord community"><DiscordIcon /></a>
                             <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300" aria-label="GitHub repository"><GithubIcon /></a>
                             <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300" aria-label="LinkedIn profile"><LinkedinIcon /></a>
-                            <a href="#" className="w-9 h-9 bg-blue-500 rounded-full flex flex-col items-center justify-center text-white text-[7px] leading-[8px] font-bold text-center transition-opacity hover:opacity-80" title="AICPA Service Organization Control (SOC) 2 Type II certified">
-                                <span>AICPA</span>
-                                <span>SOC</span>
-                            </a>
+                        
                         </div>
                         <a href="#" className="border border-gray-700 rounded-full py-2 px-4 flex items-center gap-2 text-sm hover:bg-gray-800 transition-colors duration-300">
                             <span className="w-2 h-2 bg-green-500 rounded-full"></span>

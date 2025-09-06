@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   BarChart, Book, Briefcase, FileText, GitBranch, LifeBuoy, Rocket, Shield
@@ -84,11 +85,10 @@ const Navbar = () => {
       <nav 
         className="sticky top-10 z-50 flex items-center justify-center w-full h-16 bg-[#04010E]/50 border-b border-t border-white/10 backdrop-blur-md"
       >
-        <div className="flex items-center justify-between w-full h-full max-w-screen-xl px-4 md:px-8 mx-auto">
-          <Link href="/" className="cursor-pointer z-50">
-            <span className="text-2xl font-bold text-white">PENTORA</span>
-          </Link>
-
+     <div className="flex items-center justify-between w-full h-full max-w-screen-xl px-4 md:px-8 mx-auto">
+  <Link href="/" className="cursor-pointer z-50">
+    <Image src="/pentora-logo.png" alt="Logo" width={100} height={100} />
+  </Link>
           <div className="hidden md:flex items-center space-x-1">
             {Object.keys(menuItems).map((key) => (
               <div key={key} className="relative h-full flex items-center" onMouseEnter={() => handleMouseEnter(key)} onMouseLeave={() => handleMouseLeave(key)}>
@@ -102,8 +102,8 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
             ))}
-            <Link href="#docs" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
-              Documentation
+            <Link href="/tools" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
+              Tools
             </Link>
             <Link href="#pricing" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
              Threat Monitoring

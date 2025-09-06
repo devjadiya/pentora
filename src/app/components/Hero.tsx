@@ -70,29 +70,35 @@ const Hero = () => {
       
       <div className="w-full max-w-screen-xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-start">
         {/* Left Side: Text Content */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="relative z-20 text-left pt-12"
-        >
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600">AI</span> evaluation and observability for enterprises
-          </h1>
-          <h3 className="mt-6 text-lg text-gray-300 opacity-65">
-            From ML to LLMs, test, monitor, and govern AI systems. Catch issues early, keep a watchful eye in production, and create best-in-class AI.
-          </h3>
-          <div className="mt-10">
-            <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-3 font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full shadow-lg shadow-purple-500/20"
-            >
-              Schedule live demo
-            </motion.button>
-          </div>
-        </motion.div>
-        
+<motion.div 
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5 }}
+  className="relative z-20 text-left pt-12"
+>
+  <h1 className="text-5xl md:text-6xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
+    <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600">
+      Enterprise-Grade Cybersecurity
+    </span>{" "}
+    for a Secure Digital Future
+  </h1>
+
+  <h3 className="mt-6 text-lg text-gray-300 opacity-65">
+    Protect your infrastructure, cloud, and data with next-gen security solutions built to detect, prevent, and respond to threats in real-time. 
+    Stay ahead of cyber risks with Pentora the modern alternative to legacy security platforms.
+  </h3>
+
+  <div className="mt-10">
+    <motion.button 
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="px-8 py-3 font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full shadow-lg shadow-purple-500/20"
+    >
+      Secure My Company Now
+    </motion.button>
+  </div>
+</motion.div>
+      
         {/* Right Side: Animation Container */}
         <div className="relative h-[600px] w-full">
             <div className="absolute top-[-64px] left-[20%] w-full h-full">
