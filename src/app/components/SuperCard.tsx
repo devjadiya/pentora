@@ -109,7 +109,7 @@ const LiveThreatChart = () => {
         
         const interval = setInterval(() => {
             chart.data.datasets[0].data = chart.data.datasets[0].data.map(d => Math.max(0, (d as number) + (Math.random() > 0.5 ? 1 : -1) * 5));
-            chart.update('quiet');
+           chart.update('none');
         }, 1500);
 
         return () => {
