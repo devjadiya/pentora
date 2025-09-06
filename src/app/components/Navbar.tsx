@@ -6,7 +6,6 @@ import {
   BarChart, Book, Briefcase, FileText, GitBranch, LifeBuoy, Rocket, Shield
 } from 'lucide-react';
 import AnimatedHamburgerIcon from './AnimatedHamburgerIcon';
-import MobileMenu from './MobileMenu';
 
 const menuItems = {
   product: [
