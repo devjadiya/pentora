@@ -127,10 +127,6 @@ const Navbar = () => {
               <AnimatedHamburgerIcon isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
           </div>
         </div>
-        
-        <AnimatePresence>
-            {isMenuOpen && <MobileMenu menuItems={menuItems} setIsMenuOpen={setIsMenuOpen} />}
-        </AnimatePresence>
       </nav>
     </>
   );

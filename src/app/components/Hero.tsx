@@ -4,8 +4,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, XCircle, Loader, GitCommitHorizontal, MessageSquare, ShieldCheck, Fingerprint, Timer } from 'lucide-react';
 import Image from 'next/image';
 
+// --- Type Definitions ---
+type Test = {
+  name: string;
+  status: 'Passing' | 'Failing' | 'Waiting';
+  icon: React.ReactNode;
+};
+
+type PreCommitStep = { duration: number; type: 'pre-commit'; text: string };
+type CommitStep = { duration: number; type: 'commit'; user: string; action: string };
+type CardStep = { duration: number; type: 'card'; status: string; progress: string; tests?: Test[] };
+type SummaryStep = { duration: number; type: 'summary'; passing: number; failing: number };
+
+type AnimationStep = PreCommitStep | CommitStep | CardStep | SummaryStep;
+
+
 // --- Configuration for the animation sequence ---
-const animationSteps = [
+const animationSteps: AnimationStep[] = [
   { duration: 1500, type: 'pre-commit', text: 'Pushing new version of the AI system...' },
   { duration: 1500, type: 'commit', user: 'Katherine Johnson', action: 'committed just now' },
   { duration: 1500, type: 'card', status: 'Registering commit', progress: '1 of 4' },
@@ -15,7 +30,7 @@ const animationSteps = [
   { duration: 3000, type: 'summary', passing: 22, failing: 10 }
 ];
 
-const initialTests = [
+const initialTests: Test[] = [
     { name: "Optimal F1 and precision", status: "Waiting", icon: <ShieldCheck size={18}/> },
     { name: "LLM accurately summarizes context", status: "Waiting", icon: <MessageSquare size={18}/> },
     { name: "Prevent fake product prompts", status: "Waiting", icon: <Fingerprint size={18}/> },
@@ -24,7 +39,7 @@ const initialTests = [
 
 const Hero = () => {
   const [stepIndex, setStepIndex] = useState(0);
-  const [tests, setTests] = useState(initialTests);
+  const [tests, setTests] = useState<Test[]>(initialTests);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -38,14 +53,14 @@ const Hero = () => {
     
     const currentStepData = animationSteps[stepIndex];
     if (currentStepData.type === 'card' && currentStepData.tests) {
-        setTimeout(() => setTests(currentStepData.tests), 500);
+        setTimeout(() => setTests(currentStepData.tests!), 500);
     }
 
     return () => clearTimeout(timer);
   }, [stepIndex]);
   
   const currentStep = animationSteps[stepIndex];
-  const cardData = animationSteps.find(s => s.type === 'card' && s.status === (currentStep as any).status) || animationSteps[2];
+  const cardData = animationSteps.find(s => s.type === 'card' && currentStep.type === 'card' && s.status === currentStep.status) || animationSteps[2];
   
   return (
     <section className="relative w-full text-white pt-24 pb-32 flex justify-center overflow-hidden min-h-[90vh]">
@@ -81,7 +96,6 @@ const Hero = () => {
         {/* Right Side: Animation Container */}
         <div className="relative h-[600px] w-full">
             <div className="absolute top-[-64px] left-[20%] w-full h-full">
-               
                 {/* The Tracing Beam */}
                 <div className="absolute top-0 left-0 h-full w-0.5 bg-white/10 z-10">
                 </div>
@@ -99,16 +113,16 @@ const Hero = () => {
                      <div className="ml-4 text-sm text-gray-300 flex items-center space-x-2 whitespace-nowrap">
                         <Image src="https://ugc.production.linktr.ee/m7xEJP1xTumDeJkVIqpj_73txc4bV5F26k74A?io=true&size=avatar-v3_0" width={24} height={24} alt="avatar" className="rounded-full" />
                          <AnimatePresence mode="wait">
-                            <motion.div
-                                key={stepIndex}
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 10 }}
-                                transition={{ duration: 0.3 }}
-                            >
-                                <span><b>{(currentStep as any)?.user || 'Katherine Johnson'}</b> <span className="opacity-70">{(currentStep as any)?.action || 'committed just now'}</span></span>
-                            </motion.div>
-                        </AnimatePresence>
+                             <motion.div
+                                 key={stepIndex}
+                                 initial={{ opacity: 0, y: -10 }}
+                                 animate={{ opacity: 1, y: 0 }}
+                                 exit={{ opacity: 0, y: 10 }}
+                                 transition={{ duration: 0.3 }}
+                             >
+                                <span><b>{currentStep.type === 'commit' ? currentStep.user : 'Katherine Johnson'}</b> <span className="opacity-70">{currentStep.type === 'commit' ? currentStep.action : 'committed just now'}</span></span>
+                             </motion.div>
+                         </AnimatePresence>
                     </div>
                  </motion.div>
 
@@ -127,8 +141,8 @@ const Hero = () => {
                                     <Image src="https://cdn-icons-png.flaticon.com/512/217/217436.png" width={40} height={40} alt="logo" className="rounded-lg" />
                                     <AnimatePresence mode="wait">
                                         <motion.div key={stepIndex} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center space-x-2">
-                                            {(cardData as any).progress && <span className="text-white text-sm">{(cardData as any).progress}</span>}
-                                            {(cardData as any).status && <span className={`text-sm text-purple-400`}>{(cardData as any).status}</span>}
+                                            {cardData.type === 'card' && cardData.progress && <span className="text-white text-sm">{cardData.progress}</span>}
+                                            {cardData.type === 'card' && cardData.status && <span className={`text-sm text-purple-400`}>{cardData.status}</span>}
                                         </motion.div>
                                     </AnimatePresence>
                                 </div>
@@ -178,8 +192,8 @@ const Hero = () => {
                                  <CheckCircle2 size={16} className="text-green-400"/>
                             </div>
                             <div className="ml-4 flex items-center space-x-4">
-                                <span className="text-xs flex items-center text-green-400"><CheckCircle2 size={12} className="mr-1"/> {(currentStep as any).passing} tests passing</span>
-                                <span className="text-xs flex items-center text-red-400"><XCircle size={12} className="mr-1"/> {(currentStep as any).failing} tests failing</span>
+                                <span className="text-xs flex items-center text-green-400"><CheckCircle2 size={12} className="mr-1"/> {currentStep.passing} tests passing</span>
+                                <span className="text-xs flex items-center text-red-400"><XCircle size={12} className="mr-1"/> {currentStep.failing} tests failing</span>
                             </div>
                          </motion.div>
                     )}
