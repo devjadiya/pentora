@@ -6,6 +6,10 @@ import MoreFeatures from "./components/MoreFeatures";
 import Templates from "./components/Templates";
 import CTA from "./components/CTA";
 import Footer from "./components/Footer";
+import CardSection from "./components/CardSection";
+import ActionCard from "./components/ActionCards";
+import Testimonials from "./components/Testimonials";
+import SuperCard from "./components/SuperCard";
 
 export default function Home() {
   return (
@@ -14,9 +18,13 @@ export default function Home() {
       <main>
         <Hero />
           <Clients />
-          <Features />
-          <MoreFeatures />
-          <Templates />
+          {/* <Features /> */}
+          {/* <MoreFeatures /> */}
+          {/* <Templates /> */}
+          <SuperCard />
+          <Testimonials />
+          <ActionCard />
+          <CardSection />
           <CTA />
           <Footer />
       </main>

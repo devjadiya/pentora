@@ -107,7 +107,7 @@ const Navbar = () => {
               Documentation
             </Link>
             <Link href="#pricing" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
-              Pricing
+             Threat Monitoring
             </Link>
           </div>
           

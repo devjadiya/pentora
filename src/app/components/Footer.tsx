@@ -96,7 +96,7 @@ const Footer = () => {
                     <div className="flex flex-col gap-6 items-center lg:items-start text-center lg:text-left">
                         <a href="#" className="flex items-center gap-3">
                             <OpenlayerLogo />
-                            <span className="text-xl font-semibold">Openlayer</span>
+                            <span className="text-xl font-semibold">Pentora</span>
                         </a>
                         <div className="flex items-center gap-4">
                             <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300" aria-label="X social media"><XIcon /></a>

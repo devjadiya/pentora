@@ -45,7 +45,7 @@ const CTA = () => {
                             <path d="M7.00161 16.2407L6.99983 7H2L2.00193 11.2448C2.00193 17.1836 6.99239 21.9996 12.933 21.9996H17L16.9998 17H7.75912C7.34026 17 6.99983 16.6596 6.99983 16.2407H7.00161Z" fill="currentColor"></path>
                         </g>
                     </svg>
-                    <div className="text-xs bg-gradient-to-r from-green-400 to-green-600 text-black font-mono px-2 rounded">$ openlayer push</div>
+                    <div className="text-xs bg-gradient-to-r from-green-400 to-green-600 text-black font-mono px-2 rounded">$ Pentora push</div>
                 </div>
             </motion.div>
          </div>
