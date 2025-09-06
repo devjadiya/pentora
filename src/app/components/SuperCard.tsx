@@ -1,14 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
     ShieldCheck, 
-    TerminalSquare, 
-    GitMerge, 
-    DatabaseZap, 
-    Siren, 
-    Server, 
     Bot,
     Target,
     Activity,
@@ -17,7 +12,6 @@ import {
     Cog
 } from 'lucide-react';
 import { Chart, registerables } from 'chart.js/auto';
-import * as THREE from 'three';
 
 // -- DYNAMIC BACKGROUND ANIMATION --
 const BackgroundAnimation = () => {
@@ -75,7 +69,7 @@ const BackgroundAnimation = () => {
 const LiveThreatChart = () => {
     const chartRef = useRef<HTMLCanvasElement>(null);
     useEffect(() => {
-        if (!chartRef.current) return null;
+        if (!chartRef.current) return;
         const ctx = chartRef.current.getContext('2d');
         if (!ctx) return;
 
@@ -114,7 +108,7 @@ const LiveThreatChart = () => {
         });
         
         const interval = setInterval(() => {
-            chart.data.datasets[0].data = chart.data.datasets[0].data.map(d => Math.max(0, d + (Math.random() > 0.5 ? 1 : -1) * 5));
+            chart.data.datasets[0].data = chart.data.datasets[0].data.map(d => Math.max(0, (d as number) + (Math.random() > 0.5 ? 1 : -1) * 5));
             chart.update('quiet');
         }, 1500);
 
@@ -130,15 +124,12 @@ const LiveThreatChart = () => {
 
 // -- SERVICE CARD COMPONENT --
 const ServiceCard: React.FC<{ icon: React.ElementType; title: string; description: string; delay: number; }> = ({ icon: Icon, title, description, delay }) => {
-    const cardRef = useRef(null);
-    const { scrollYProgress } = useScroll({ target: cardRef, offset: ["0 1", "1 1"] });
-    const scale = useTransform(scrollYProgress, [0, 1], [0.7, 1]);
-    const opacity = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
-
     return (
         <motion.div
-            ref={cardRef}
-            style={{ scale, opacity }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5, delay }}
             className="group relative bg-gray-900/50 backdrop-blur-lg p-6 rounded-xl border border-purple-900/50 transition-all duration-300 hover:border-purple-500 hover:bg-gray-900"
         >
             <div className="flex items-center gap-4">
@@ -219,7 +210,7 @@ const SuperCard: React.FC = () => {
                         PENTORA
                     </h1>
                     <p className="text-purple-400 mt-4 max-w-3xl mx-auto text-xl md:text-2xl font-semibold">
-                       Secure Your Data, Secure Your Future.
+                        Secure Your Data, Secure Your Future.
                     </p>
                 </motion.div>
 
@@ -239,7 +230,7 @@ const SuperCard: React.FC = () => {
                         </motion.div>
                         <h3 className="font-semibold text-2xl text-white">Why Choose Us?</h3>
                         <p className="text-gray-400 mt-2">
-                           We prioritize security from the start to ensure customer workloads are always protected. Our expert services offer a security-first approach to safeguard your valuable assets.
+                            We prioritize security from the start to ensure customer workloads are always protected. Our expert services offer a security-first approach to safeguard your valuable assets.
                         </p>
                     </Card>
 
@@ -249,7 +240,7 @@ const SuperCard: React.FC = () => {
                         </div>
                         <h3 className="font-semibold text-2xl text-white">AI Analyst Co-Pilot</h3>
                         <p className="text-gray-400 mt-2">
-                           Leverage our generative AI to automate investigation summaries, write response plans, and query data with natural language.
+                            Leverage our generative AI to automate investigation summaries, write response plans, and query data with natural language.
                         </p>
                     </Card>
 
@@ -274,5 +265,3 @@ const SuperCard: React.FC = () => {
 };
 
 export default SuperCard;
-
-
