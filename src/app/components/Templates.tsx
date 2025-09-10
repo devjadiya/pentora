@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -23,12 +24,11 @@ const services = [
   { title: "Security Awareness & Training Programs", description: "Empower your employees to be the first line of defense against phishing, social engineering, and other threats.", icon: BookUser, image: "/assets/services/13.png" },
 ];
 
-const ServicesShowcase = () => {
+const Templates = () => {
   const [activeService, setActiveService] = useState(services[0]);
   const leftColRef = useRef<HTMLDivElement | null>(null);
   const [leftHeight, setLeftHeight] = useState<number | null>(null);
 
-  // Sync height for image container to match left menu height
   useEffect(() => {
     if (leftColRef.current) {
       setLeftHeight(leftColRef.current.offsetHeight);
@@ -37,7 +37,7 @@ const ServicesShowcase = () => {
 
   return (
     <section className="relative bg-[#0A0514] text-white py-24 sm:py-32 overflow-hidden">
-      {/* Background decoration */}
+      {/* Decorative background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:2rem_2rem] pointer-events-none z-0" />
       <div className="absolute -left-48 -top-48 w-96 h-96 bg-gradient-to-br from-purple-900 to-transparent opacity-20 blur-3xl rounded-full z-0" />
       <div className="absolute -right-48 -bottom-48 w-96 h-96 bg-gradient-to-tl from-blue-900 to-transparent opacity-20 blur-3xl rounded-full z-0" />
@@ -57,18 +57,19 @@ const ServicesShowcase = () => {
           </p>
         </motion.div>
 
-        {/* Content */}
+        {/* Content Grid */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
           className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10"
         >
-          {/* Service Menu */}
+          {/* Left Column - Service Menu */}
           <div
             className="lg:col-span-4 flex flex-col gap-2 max-h-full overflow-y-auto"
             ref={leftColRef}
           >
+            {/* Desktop Vertical Menu */}
             <div className="lg:flex hidden flex-col gap-2">
               {services.map(service => (
                 <button
@@ -106,7 +107,7 @@ const ServicesShowcase = () => {
             </div>
           </div>
 
-          {/* Image Section */}
+          {/* Right Column - Image/Details */}
           <div
             className="lg:col-span-8 bg-black/20 border border-white/10 rounded-2xl p-5"
             style={{ minHeight: leftHeight || 'auto' }}
@@ -135,6 +136,5 @@ const ServicesShowcase = () => {
       </div>
     </section>
   );
-};
-
-export default ServicesShowcase;
+}
+export default Templates;

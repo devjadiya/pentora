@@ -1,5 +1,7 @@
 'use client';
 import React, { useState } from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 // SVG Icon components for form fields
 const UserIcon = ({ className = "w-5 h-5" }) => (
@@ -45,6 +47,7 @@ const RequestDemoPage = () => {
     };
 
   return (
+    <><Navbar/>
     <div className="relative bg-black min-h-screen text-white font-sans overflow-x-hidden">
       {/* Background Glow Effect */}
       <div
@@ -123,6 +126,8 @@ const RequestDemoPage = () => {
         </div>
       </main>
     </div>
+    <Footer/>
+    </>
   );
 };
 
