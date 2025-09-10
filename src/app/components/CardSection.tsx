@@ -191,10 +191,10 @@ const CardSection = () => {
                     We offer a comprehensive suite of cybersecurity services designed to protect your organizations critical assets and reputation.
                 </p>
                 <div className="flex justify-center items-center gap-4 sm:gap-6">
-                    <motion.a href="#" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-5 sm:px-6 py-3 text-sm sm:text-base font-semibold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full shadow-lg shadow-purple-500/20">
+                    <motion.a href="/contact" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-5 sm:px-6 py-3 text-sm sm:text-base font-semibold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full shadow-lg shadow-purple-500/20">
                         Get a Quote
                     </motion.a>
-                    <motion.a href="#" whileHover={{ scale: 1.05 }} className="group text-sm sm:text-base font-semibold text-gray-300 flex items-center gap-2">
+                    <motion.a href="/tools" whileHover={{ scale: 1.05 }} className="group text-sm sm:text-base font-semibold text-gray-300 flex items-center gap-2">
                         Our Services
                         <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
                     </motion.a>

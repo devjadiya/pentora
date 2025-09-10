@@ -3,24 +3,25 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   BarChart, Book, Briefcase, FileText, GitBranch, LifeBuoy, Rocket, Shield
 } from 'lucide-react';
 import AnimatedHamburgerIcon from './AnimatedHamburgerIcon';
 
+// 🔒 Premium rebranding of product & company items
 const menuItems = {
   product: [
-    { title: "Generative AI", description: "For LLM-based systems", href: "#", icon: <Rocket size={16} /> },
-    { title: "LLM Observability", description: "Monitor your LLMs in production", href: "#", icon: <BarChart size={16} /> },
-    { title: "Data Quality", description: "Automated checks for your data", href: "#", icon: <Shield size={16} /> },
-    { title: "Traditional ML", description: "For predictive models", href: "#", icon: <GitBranch size={16} /> },
-    { title: "ML Observability", description: "Monitor your models in production", href: "#", icon: <BarChart size={16} /> },
-    { title: "AI Governance", description: "AI compliance & governance", href: "#", icon: <Briefcase size={16} /> },
+    { title: "Cognitive AI Suite", description: "Generative intelligence for secure systems", href: "#", icon: <Rocket size={16} /> },
+    { title: "IntelliGuard LLM", description: "Production-grade LLM observability", href: "#", icon: <BarChart size={16} /> },
+    { title: "Data Integrity Matrix", description: "Precision testing for critical data pipelines", href: "#", icon: <Shield size={16} /> },
+    { title: "Predictive ML Stack", description: "Secure infrastructure for traditional models", href: "#", icon: <GitBranch size={16} /> },
+    { title: "ML Command Center", description: "Real-time visibility for ML operations", href: "#", icon: <BarChart size={16} /> },
+    { title: "AI Compliance Vault", description: "Enterprise governance & regulatory alignment", href: "#", icon: <Briefcase size={16} /> },
   ],
   company: [
-    { title: "About us", description: "Learn about our mission", href: "#", icon: <LifeBuoy size={16} /> },
-    { title: "Careers", description: "Join our team", href: "/careers", icon: <Briefcase size={16} /> },
-    { title: "Security", description: "How we protect your data", href: "#", icon: <Shield size={16} /> },
+    { title: "Our Legacy", description: "Excellence in global cybersecurity", href: "#", icon: <LifeBuoy size={16} /> },
+    { title: "Elite Careers", description: "Work with the industry's best minds", href: "/careers", icon: <Briefcase size={16} /> },
+    { title: "Fortress Security", description: "Zero-trust by design, always", href: "#", icon: <Shield size={16} /> },
   ]
 };
 
@@ -51,43 +52,46 @@ const DropdownMenu = ({ items }: { items: { href: string; title: string; descrip
 const Navbar = () => {
   const [activeDropdowns, setActiveDropdowns] = useState<string[]>([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
+    document.body.style.overflow = isMenuOpen ? 'hidden' : 'auto';
     return () => {
       document.body.style.overflow = 'auto';
     };
   }, [isMenuOpen]);
 
-  const handleMouseEnter = (key: string) => {
-    setActiveDropdowns(prev => [...prev, key]);
-  };
-
-  const handleMouseLeave = (key: string) => {
-    setActiveDropdowns(prev => prev.filter(item => item !== key));
-  };
+  const handleMouseEnter = (key: string) => setActiveDropdowns(prev => [...prev, key]);
+  const handleMouseLeave = (key: string) => setActiveDropdowns(prev => prev.filter(item => item !== key));
 
   return (
     <>
+      {/* Top banner */}
       <div className="sticky top-0 z-50 flex items-center justify-center w-full h-10 bg-black/70 backdrop-blur-lg text-white/80 px-4">
-        <Link href="#" className="hover:underline text-center text-xs sm:text-sm">Announcing our $14.5M Series A! Read the blog post →</Link>
+        <Link href="#" className="hover:underline text-center text-xs sm:text-sm">
+          Announcing our $14.5M Series A! Read the blog post →
+        </Link>
       </div>
-      <nav 
-        className="sticky top-10 z-50 flex items-center justify-center w-full h-16 bg-[#04010E]/50 border-b border-t border-white/10 backdrop-blur-md"
-      >
-     <div className="flex items-center justify-between w-full h-full max-w-screen-xl px-4 md:px-8 mx-auto">
-  <Link href="/" className="cursor-pointer z-50">
-    <Image src="/pentora-logo.png" alt="Logo" width={100} height={100} />
-  </Link>
+
+      {/* Main Navbar */}
+      <nav className="sticky top-10 z-50 flex items-center justify-center w-full h-16 bg-[#04010E]/50 border-b border-t border-white/10 backdrop-blur-md">
+        <div className="flex items-center justify-between w-full h-full max-w-screen-xl px-4 md:px-8 mx-auto">
+          
+          {/* Logo */}
+          <Link href="/" className="cursor-pointer z-50">
+            <Image src="/pentora-logo.png" alt="Pentora Logo" width={100} height={100} />
+          </Link>
+
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {Object.keys(menuItems).map((key) => (
-              <div key={key} className="relative h-full flex items-center" onMouseEnter={() => handleMouseEnter(key)} onMouseLeave={() => handleMouseLeave(key)}>
+              <div
+                key={key}
+                className="relative h-full flex items-center"
+                onMouseEnter={() => handleMouseEnter(key)}
+                onMouseLeave={() => handleMouseLeave(key)}
+              >
                 <button className="px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors capitalize h-full">
-                  {key}
+                  {key === 'product' ? 'Solutions' : 'Company'}
                 </button>
                 <AnimatePresence>
                   {activeDropdowns.includes(key) && (
@@ -96,21 +100,26 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
             ))}
+
+            {/* Static links */}
             <Link href="/tools" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
-              Tools
+              Platform Tools
             </Link>
             <Link href="/dashboard" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
-             Threat Monitoring
+              Threat Monitoring
             </Link>
-               <Link href="/contact" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
-             Contact
+            <Link href="/contact" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
+              Global Contact
             </Link>
           </div>
-          
+
+          {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link href="#login" className="text-sm text-gray-300 hover:text-white transition-colors">Login</Link>
+            <Link href="#login" className="text-sm text-gray-300 hover:text-white transition-colors">
+              Login
+            </Link>
             <Link href="/request-form">
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-6 py-2 text-sm font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full transition-transform"
@@ -120,8 +129,9 @@ const Navbar = () => {
             </Link>
           </div>
 
+          {/* Mobile Menu */}
           <div className="md:hidden">
-              <AnimatedHamburgerIcon isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
+            <AnimatedHamburgerIcon isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
           </div>
         </div>
       </nav>
@@ -130,4 +140,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

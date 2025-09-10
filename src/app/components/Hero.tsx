@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, XCircle, Loader, GitCommitHorizontal, MessageSquare, ShieldCheck, Fingerprint, Timer } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link'; 
 
 // --- Type Definitions ---
 type Test = {
@@ -94,6 +95,7 @@ const Hero = () => {
       whileTap={{ scale: 0.95 }}
       className="px-8 py-3 font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full shadow-lg shadow-purple-500/20"
     >
+      <Link href="/request-form" className="absolute inset-0 w-full h-full"></Link>
       Secure My Company Now
     </motion.button>
   </div>

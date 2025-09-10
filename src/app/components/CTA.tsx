@@ -63,7 +63,7 @@ const CTA = () => {
         </p>
 
         <div className="mt-10">
-          <a href="#demo">
+          <a href="/request-form">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
