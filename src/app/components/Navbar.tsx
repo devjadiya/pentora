@@ -105,7 +105,7 @@ const Navbar = () => {
             <Link href="/tools" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
               Tools
             </Link>
-            <Link href="#pricing" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
+            <Link href="/dashboard" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
              Threat Monitoring
             </Link>
           </div>

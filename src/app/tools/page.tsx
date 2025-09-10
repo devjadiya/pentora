@@ -1,218 +1,499 @@
 "use client";
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+import {
+    Shield, Target, GitBranch, Zap, Layers, BarChart, Server, Cloud, BrainCircuit,
+    ArrowRight, Search, Eye, Code2, Network, Globe, ChevronDown,
+    X, CheckCircle2, XCircle, Loader2
+} from 'lucide-react';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Search, Shield, Server, Terminal, BarChart, Users, Zap } from 'lucide-react';
+// --- PENTORA'S CUSTOM SVG ICONS ---
+const CerberusIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-8 h-8 text-fuchsia-400">
+        <path d="M12 2L9 6H5l-1 5l2 2l-2 2l1 5h4l3 4l3-4h4l1-5l-2-2l2-2l-1-5h-4z" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0" strokeWidth="1.5"/>
+        <path d="M8 9a1 1 0 100-2 1 1 0 000 2z" fill="currentColor"/>
+        <path d="M16 9a1 1 0 100-2 1 1 0 000 2z" fill="currentColor"/>
+    </svg>
+);
+const SpectreIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-8 h-8 text-fuchsia-400">
+        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9" strokeWidth="1.5" />
+        <path d="M12 3v2" strokeWidth="1.5" />
+        <path d="M12 19v2" strokeWidth="1.5" />
+        <path d="M21 12h-2" strokeWidth="1.5" />
+        <path d="M5 12H3" strokeWidth="1.5" />
+        <path d="M12 12l-4 4" strokeWidth="1.5" />
+        <path d="M16 8l-4 4" strokeWidth="1.5" />
+    </svg>
+);
+const AegisIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-8 h-8 text-fuchsia-400">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" strokeWidth="1.5" />
+        <path d="M12 8v4l2 2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+);
 
-// Mock data for the cybersecurity tools
+
+// --- UPDATED TOOLS DATA with PENTORA'S ARSENAL ---
 const toolsData = {
-  featured: [
-    {
-      id: 1,
-      name: 'SentinelOne',
-      category: 'Endpoint Security',
-      description: 'Autonomous endpoint protection against all types of attacks.',
-      rating: 4.8,
-      users: '2M+',
-      icon: <Shield className="w-8 h-8 text-purple-400" />,
-    },
-    {
-      id: 2,
-      name: 'Darktrace',
-      category: 'Network Security',
-      description: 'AI-powered cyber defense for detecting and responding to threats.',
-      rating: 4.9,
-      users: '1.5M+',
-      icon: <Server className="w-8 h-8 text-green-400" />,
-    },
-     {
-      id: 3,
-      name: 'Metasploit',
-      category: 'Penetration Testing',
-      description: 'The world’s most used penetration testing framework.',
-      rating: 4.7,
-      users: '3M+',
-      icon: <Terminal className="w-8 h-8 text-red-400" />,
-    },
-  ],
-  trending: [
-    {
-      id: 4,
-      name: 'Splunk',
-      category: 'SIEM & Analytics',
-      description: 'Data-to-Everything Platform for security, IT and DevOps.',
-      rating: 4.6,
-      users: '5M+',
-      icon: <BarChart className="w-8 h-8 text-blue-400" />,
-    },
-    {
-      id: 5,
-      name: 'Okta',
-      category: 'Identity & Access',
-      description: 'Secure identity management for your workforce and customers.',
-      rating: 4.8,
-      users: '10M+',
-      icon: <Users className="w-8 h-8 text-yellow-400" />,
-    },
-    {
-      id: 6,
-      name: 'Burp Suite',
-      category: 'Web Security',
-      description: 'Advanced toolkit for web application security testing.',
-      rating: 4.9,
-      users: '4.5M+',
-      icon: <Zap className="w-8 h-8 text-orange-400" />,
-    },
-  ],
-   popular: [
-    {
-      id: 7,
-      name: 'Wireshark',
-      category: 'Network Analysis',
-      description: 'The world’s foremost network protocol analyzer.',
-      rating: 4.9,
-      users: '15M+',
-      icon: <Server className="w-8 h-8 text-teal-400" />,
-    },
-    {
-      id: 8,
-      name: 'CrowdStrike Falcon',
-      category: 'Endpoint Security',
-      description: 'Cloud-native endpoint protection platform.',
-      rating: 4.7,
-      users: '2.5M+',
-      icon: <Shield className="w-8 h-8 text-indigo-400" />,
-    },
-    {
-      id: 9,
-      name: 'Nessus',
-      category: 'Vulnerability Scanner',
-      description: 'The #1 vulnerability assessment solution.',
-      rating: 4.6,
-      users: '8M+',
-      icon: <Terminal className="w-8 h-8 text-pink-400" />,
-    },
-  ]
-};
-
-const ToolCard = ({ tool }) => {
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
-
-  return (
-    <motion.div
-      variants={cardVariants}
-      className="bg-gray-800/20 backdrop-blur-sm border border-purple-900/50 rounded-xl p-6 flex flex-col justify-between h-full group hover:bg-purple-900/20 transition-all duration-300 relative overflow-hidden"
-    >
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-600/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        <div className="relative z-10">
-            <div className="flex items-start justify-between">
-                <div className="flex-shrink-0">{tool.icon}</div>
-                <div className="flex items-center space-x-1 text-yellow-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <span className="font-bold text-white">{tool.rating}</span>
-                </div>
-            </div>
-            <div className="mt-4">
-                <h3 className="text-xl font-bold text-gray-100">{tool.name}</h3>
-                <p className="text-purple-300 text-sm mt-1">{tool.category}</p>
-                <p className="text-gray-400 mt-3 text-sm leading-relaxed">{tool.description}</p>
-            </div>
-        </div>
-        <div className="mt-6 flex items-center justify-between text-sm text-gray-500 relative z-10">
-            <span>{tool.users} users</span>
-            <span className="bg-purple-500/10 text-purple-300 px-2 py-1 rounded-md">{tool.category.split(' ')[0]}</span>
-        </div>
-    </motion.div>
-  );
-};
-
-const Tools = () => {
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-            },
+    "Pentora's Proprietary Arsenal": [
+        {
+            id: 'p1',
+            name: 'Cerberus',
+            category: 'Threat Correlation Engine',
+            description: 'Our AI-driven platform that ingests, analyzes, and correlates threat data from millions of sources in real-time.',
+            icon: <CerberusIcon />,
+            type: 'Proprietary'
         },
+        {
+            id: 'p2',
+            name: 'Spectre C2',
+            category: 'Red Team C2 Framework',
+            description: 'An elusive and modular command-and-control framework designed for advanced adversary simulation.',
+            icon: <SpectreIcon />,
+            type: 'Proprietary'
+        },
+        {
+            id: 'p3',
+            name: 'Aegis Shield',
+            category: 'Cloud-Native Autonomous Defense',
+            description: 'Automated defense for cloud workloads, providing proactive threat mitigation without human intervention.',
+            icon: <AegisIcon />,
+            type: 'Proprietary'
+        },
+    ],
+    "Threat Intelligence & Analytics": [
+        { id: 't1', name: 'Shodan', category: 'Attack Surface Monitoring', description: 'The search engine for everything on the Internet, helping you discover exposed devices and services.', icon: <Globe className="w-8 h-8 text-cyan-300" />, type: 'Commercial' },
+        { id: 't2', name: 'MISP', category: 'Threat Intelligence', description: 'An open-source platform for sharing, storing, and correlating indicators of compromise (IoCs).', icon: <BrainCircuit className="w-8 h-8 text-cyan-300" />, type: 'Open Source' },
+        { id: 't3', name: 'Splunk ES', category: 'SIEM & Analytics', description: 'A market-leading SIEM for real-time threat monitoring, advanced analytics, and rapid investigation.', icon: <BarChart className="w-8 h-8 text-cyan-300" />, type: 'Enterprise' },
+    ],
+    "Offensive & Red Team Operations": [
+        { id: 't4', name: 'Metasploit', category: 'Penetration Testing', description: 'The world’s most used penetration testing framework for developing and executing exploit code.', icon: <Target className="w-8 h-8 text-red-400" />, type: 'Open Source' },
+        { id: 't5', name: 'Burp Suite Pro', category: 'Web Application Testing', description: 'The premier toolkit for web security testers, enabling comprehensive manual and automated testing.', icon: <Network className="w-8 h-8 text-orange-400" />, type: 'Commercial' },
+        { id: 't6', name: 'BloodHound', category: 'Active Directory Security', description: 'Visualize and analyze Active Directory attack paths using graph theory. An essential for red teams.', icon: <GitBranch className="w-8 h-8 text-red-400" />, type: 'Open Source' },
+    ],
+    "Defense & Incident Response": [
+        { id: 't7', name: 'CrowdStrike', category: 'Endpoint Detection & Response (EDR)', description: 'A cloud-native platform that unifies next-gen antivirus, EDR, and a 24/7 managed hunting service.', icon: <Shield className="w-8 h-8 text-green-300" />, type: 'Enterprise' },
+        { id: 't8', name: 'TheHive Project', category: 'Security Incident Response (SIRP)', description: 'A scalable, open-source solution to manage, investigate and act upon security incidents.', icon: <Layers className="w-8 h-8 text-green-300" />, type: 'Open Source' },
+    ],
+    "Cloud & DevSecOps": [
+         { id: 't10', name: 'Wiz', category: 'Cloud Native Application Protection', description: 'A comprehensive cloud security platform that provides full visibility and context into cloud risks.', icon: <Cloud className="w-8 h-8 text-sky-300" />, type: 'Enterprise' },
+         { id: 't11', name: 'Trivy', category: 'Vulnerability Scanning', description: 'A simple and comprehensive open-source scanner for vulnerabilities in container images, filesystems, and Git repos.', icon: <Code2 className="w-8 h-8 text-sky-300" />, type: 'Open Source' },
+         { id: 't12', name: 'Falco', category: 'Cloud Threat Detection', description: 'The open-source standard for cloud-native runtime security, detecting unexpected application behavior.', icon: <Zap className="w-8 h-8 text-yellow-300" />, type: 'Open Source' },
+    ],
+};
+
+// --- ENHANCED TOOL CARD with 3D TILT ---
+const ToolCard = ({ tool }) => {
+    const cardRef = useRef(null);
+    const [rotateX, setRotateX] = useState(0);
+    const [rotateY, setRotateY] = useState(0);
+
+    const handleMouseMove = (e) => {
+        const card = cardRef.current;
+        if (!card) return;
+        const { left, top, width, height } = card.getBoundingClientRect();
+        const x = e.clientX - left;
+        const y = e.clientY - top;
+        const rotateYValue = 20 * ((x - width / 2) / (width / 2));
+        const rotateXValue = -20 * ((y - height / 2) / (height / 2));
+        setRotateX(rotateXValue);
+        setRotateY(rotateYValue);
+    };
+
+    const handleMouseLeave = () => {
+        setRotateX(0);
+        setRotateY(0);
+    };
+
+    const typeColor = {
+        'Proprietary': 'bg-fuchsia-500/10 text-fuchsia-400',
+        'Open Source': 'bg-green-500/10 text-green-400',
+        'Commercial': 'bg-blue-500/10 text-blue-400',
+        'Enterprise': 'bg-purple-500/10 text-purple-400'
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-[#1a0b2e] to-[#0d0517] text-white font-sans p-4 sm:p-6 md:p-8">
-            <div className="max-w-7xl mx-auto">
-                {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center py-12"
-                >
-                    <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
-                        Cybersecurity Tools
-                    </h1>
-                    <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto text-gray-400">
-                        Explore our curated collection of industry-leading tools and frameworks to supercharge your security operations.
-                    </p>
-                </motion.div>
+        <motion.div
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{
+                transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1)`,
+                transition: 'transform 0.3s ease-out'
+            }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="group relative h-full rounded-2xl border border-white/10 bg-black/40 p-6 backdrop-blur-sm overflow-hidden"
+        >
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-950/20 to-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-[radial-gradient(circle_at_top,_rgba(168,_85,_247,_0.2),_transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                {/* Search and Filter */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="mb-12"
-                >
-                    <div className="relative max-w-2xl mx-auto">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
-                        <input
-                            type="text"
-                            placeholder="Search over 1,000+ tools..."
-                            className="w-full bg-gray-900/50 border border-purple-800/60 rounded-full py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
-                        />
+            <div className="relative z-10 flex h-full flex-col">
+                <div className="flex items-start justify-between">
+                    <div className="p-3 rounded-lg bg-white/5 border border-white/10">{tool.icon}</div>
+                   <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${typeColor[tool.type] || ''}`}>
+                       {tool.type}
+                   </span>
+                </div>
+                <div className="mt-4 flex-grow">
+                    <h3 className="text-xl font-bold text-gray-50">{tool.name}</h3>
+                    <p className="mt-1 text-purple-300 text-sm">{tool.category}</p>
+                    <p className="mt-3 text-gray-400 text-sm leading-relaxed">{tool.description}</p>
+                </div>
+                <div className="mt-6 flex items-center justify-end">
+                    <div className="flex items-center text-sm text-purple-400 opacity-0 group-hover:opacity-100 transform -translate-x-4 group-hover:translate-x-0 transition-all duration-300">
+                        Explore Tool <ArrowRight className="ml-1 h-4 w-4" />
                     </div>
-                    <div className="flex items-center justify-center gap-2 sm:gap-4 mt-6 flex-wrap">
-                        {['All', 'SIEM', 'Endpoint', 'Network', 'Cloud', 'DevSecOps'].map((filter) => (
-                            <button key={filter} className="px-4 py-2 text-sm rounded-full bg-gray-800/40 text-gray-300 hover:bg-purple-600/50 hover:text-white transition-colors">
-                                {filter}
-                            </button>
-                        ))}
-                    </div>
-                </motion.div>
-
-                {/* Tool Sections */}
-                <div>
-                    {Object.entries(toolsData).map(([sectionTitle, tools], index) => (
-                        <div key={sectionTitle} className="mb-16">
-                            <motion.h2
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.5, delay: 0.4 + index * 0.2 }}
-                                className="text-2xl md:text-3xl font-bold mb-8 capitalize text-gray-200"
-                            >
-                                {sectionTitle} Tools
-                            </motion.h2>
-                            <motion.div
-                                variants={containerVariants}
-                                initial="hidden"
-                                animate="visible"
-                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                            >
-                                {tools.map((tool) => (
-                                    <ToolCard key={tool.id} tool={tool} />
-                                ))}
-                            </motion.div>
-                        </div>
-                    ))}
                 </div>
             </div>
+        </motion.div>
+    );
+};
+
+// --- [NEW] DOMAIN SCAN MODAL ---
+const ScanModal = ({ isOpen, onClose, domain }) => {
+    const [stage, setStage] = useState('scanning'); // scanning, results, form, submitted
+    const [checks, setChecks] = useState([]);
+    const [results, setResults] = useState({ passed: 0, failed: 0 });
+
+    const allChecks = [
+        "DNSSEC Record Analysis",
+        "SSL/TLS Certificate Chain Validation",
+        "HTTP Security Headers Audit",
+        "Open Port & Service Banner Enumeration",
+        "Subdomain Hijacking Vulnerability Check",
+        "Mail Server Security (SPF, DKIM, DMARC)",
+        "Firewall Configuration & Egress Filtering Test",
+        "Known Vulnerabilities Scan (CVE)",
+        "Threat Intelligence Feed Cross-Reference"
+    ];
+
+    useEffect(() => {
+        if (isOpen) {
+            // Reset state on open
+            setStage('scanning');
+            setChecks([]);
+            
+            const runScan = () => {
+                allChecks.forEach((check, index) => {
+                    setTimeout(() => {
+                        setChecks(prev => [...prev, { text: check, status: 'running' }]);
+                    }, (index + 1) * 700);
+                });
+
+                // Transition to results after all checks are displayed
+                setTimeout(() => {
+                    const passed = Math.floor(Math.random() * 3) + 6; // Randomly 6, 7, or 8
+                    const failed = allChecks.length - passed;
+                    setResults({ passed, failed });
+                    setStage('results');
+                }, (allChecks.length + 1) * 700);
+            };
+
+            runScan();
+        }
+    }, [isOpen]);
+    
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        setStage('submitted');
+        setTimeout(() => {
+            onClose();
+        }, 2000);
+    };
+
+    const modalVariants = {
+        hidden: { opacity: 0, scale: 0.9 },
+        visible: { opacity: 1, scale: 1 },
+        exit: { opacity: 0, scale: 0.9 }
+    };
+
+    return (
+        <AnimatePresence>
+            {isOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+                    <motion.div
+                        variants={modalVariants} initial="hidden" animate="visible" exit="exit"
+                        className="relative w-full max-w-2xl rounded-2xl border border-purple-800/60 bg-[#0d0517] p-8 text-white shadow-2xl shadow-purple-500/10"
+                    >
+                        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors">
+                            <X size={24} />
+                        </button>
+                        <h2 className="text-2xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
+                            Security Posture Assessment
+                        </h2>
+                        <p className="text-center text-gray-400 mt-1">Scanning: <span className="font-mono text-purple-300">{domain}</span></p>
+
+                        <div className="mt-6">
+                            {stage === 'scanning' && (
+                                <div className="space-y-3">
+                                    <p className="text-center text-sm text-gray-400 mb-4">Running {checks.length} of {allChecks.length} checks...</p>
+                                    {checks.map((check, index) => (
+                                        <motion.div key={index} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3 text-sm">
+                                            <Loader2 className="h-4 w-4 animate-spin text-purple-400" />
+                                            <span className="text-gray-300">{check.text}</span>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {stage === 'results' && (
+                                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
+                                    <h3 className="text-xl font-bold">Scan Complete</h3>
+                                    <div className="flex justify-center gap-8 my-4">
+                                        <div className="flex items-center gap-2 text-green-400">
+                                            <CheckCircle2 size={24} />
+                                            <span className="text-2xl font-bold">{results.passed}</span>
+                                            <span>Checks Passed</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-red-400">
+                                            <XCircle size={24} />
+                                            <span className="text-2xl font-bold">{results.failed}</span>
+                                            <span>Risks Found</span>
+                                        </div>
+                                    </div>
+                                    <p className="text-gray-400 text-sm max-w-md mx-auto">Your comprehensive report is ready. Enter your details to receive the full vulnerability assessment.</p>
+                                    <button onClick={() => setStage('form')} className="mt-6 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-full transition-colors">
+                                        Download Report
+                                    </button>
+                                </motion.div>
+                            )}
+                            
+                            {(stage === 'form' || stage === 'submitted') && (
+                                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                    {stage === 'submitted' ? (
+                                        <div className="text-center py-8">
+                                            <CheckCircle2 className="mx-auto h-12 w-12 text-green-500" />
+                                            <h3 className="mt-4 text-xl font-bold">Thank You!</h3>
+                                            <p className="text-gray-400">Your report has been sent.</p>
+                                        </div>
+                                    ) : (
+                                        <form onSubmit={handleFormSubmit} className="space-y-4">
+                                            <div>
+                                                <label className="text-sm font-medium text-gray-400">Name</label>
+                                                <input type="text" required className="w-full mt-1 bg-gray-900/50 border border-purple-800/60 rounded-lg p-2 focus:ring-purple-500 focus:border-purple-500 outline-none" />
+                                            </div>
+                                            <div>
+                                                <label className="text-sm font-medium text-gray-400">Email</label>
+                                                <input type="email" required className="w-full mt-1 bg-gray-900/50 border border-purple-800/60 rounded-lg p-2 focus:ring-purple-500 focus:border-purple-500 outline-none" />
+                                            </div>
+                                             <div>
+                                                <label className="text-sm font-medium text-gray-400">Phone <span className="text-gray-500">(Optional)</span></label>
+                                                <input type="tel" className="w-full mt-1 bg-gray-900/50 border border-purple-800/60 rounded-lg p-2 focus:ring-purple-500 focus:border-purple-500 outline-none" />
+                                            </div>
+                                            <button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+                                                Submit & Download
+                                            </button>
+                                        </form>
+                                    )}
+                                </motion.div>
+                            )}
+                        </div>
+                    </motion.div>
+                </div>
+            )}
+        </AnimatePresence>
+    );
+};
+
+
+// --- DYNAMIC BACKGROUND & TRACING BEAM ---
+const CyberVFXBackground = ({ children }) => {
+    const ref = useRef(null);
+    const { scrollYProgress } = useScroll({ target: ref });
+    const pathLength = useSpring(scrollYProgress, { stiffness: 400, damping: 90 });
+
+    return (
+        <div ref={ref} className="relative">
+            <div className="absolute top-0 left-8 h-full w-px bg-white/5">
+                <motion.div
+                    className="h-full w-full bg-gradient-to-b from-fuchsia-500 to-cyan-500"
+                    style={{ scaleY: pathLength, transformOrigin: 'top' }}
+                />
+            </div>
+            <div className="absolute inset-0 z-[-1] overflow-hidden">
+                <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(139, 92, 246, 0.1)" strokeWidth="0.5"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                </svg>
+            </div>
+            {children}
         </div>
     );
 };
 
-export default Tools;
+// --- COLLAPSIBLE TOOL CATEGORY SECTION ---
+const ToolCategory = ({ title, tools, isInitiallyOpen = false }) => {
+    const [isExpanded, setIsExpanded] = useState(isInitiallyOpen);
+    const visibleTools = isExpanded ? tools : tools.slice(0, 3);
+    
+    return (
+        <div className="relative pl-16">
+            <div className="absolute top-2 left-6 h-6 w-6 rounded-full bg-fuchsia-500/50 border-2 border-fuchsia-400 flex items-center justify-center">
+                 <div className="h-2 w-2 rounded-full bg-fuchsia-300"></div>
+            </div>
+            <motion.h2
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="text-3xl md:text-4xl font-bold mb-8 capitalize bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500"
+            >
+                {title}
+            </motion.h2>
+            <motion.div
+                layout
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+                {visibleTools.map((tool) => (
+                    <ToolCard key={tool.id} tool={tool} />
+                ))}
+            </motion.div>
+            {tools.length > 3 && (
+                <div className="mt-8 text-center">
+                    <button
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        className="group inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-2 text-sm font-medium text-gray-300 transition-colors hover:bg-white/10"
+                    >
+                        {isExpanded ? 'Show Less' : 'Show More'}
+                        <motion.div animate={{ rotate: isExpanded ? 180 : 0 }}>
+                             <ChevronDown className="h-4 w-4" />
+                        </motion.div>
+                    </button>
+                </div>
+            )}
+        </div>
+    );
+};
+
+// --- MAIN PAGE COMPONENT ---
+const ToolsPage = () => {
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [scanDomain, setScanDomain] = useState("");
+    const [scanError, setScanError] = useState("");
+
+    useEffect(() => {
+        const handleMouseMove = (e) => {
+            setMousePosition({ x: e.clientX, y: e.clientY });
+        };
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
+
+    const handleDomainSubmit = (e) => {
+        e.preventDefault();
+        const domainInput = e.target.elements.domain.value;
+        const domainRegex = /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$/i;
+        
+        // A simple check for http/https prefixes and removing them.
+        const cleanedDomain = domainInput.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0];
+
+        if (cleanedDomain && domainRegex.test(cleanedDomain)) {
+            setScanDomain(cleanedDomain);
+            setIsModalOpen(true);
+            setScanError("");
+        } else {
+            setScanError("Please enter a valid domain name.");
+            setTimeout(() => setScanError(""), 3000);
+        }
+    };
+
+
+    return (
+        <div className="relative min-h-screen overflow-x-hidden bg-[#0a0710] text-white font-sans">
+            <motion.div
+                className="pointer-events-none fixed inset-0 z-0 opacity-20 blur-3xl"
+                style={{
+                    background: `radial-gradient(800px at ${mousePosition.x}px ${mousePosition.y}px, rgba(124, 58, 237, 0.3), transparent 80%)`,
+                }}
+            />
+            
+            <ScanModal 
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                domain={scanDomain}
+            />
+   <Navbar />
+            <div className="relative z-10 p-4 sm:p-6 md:p-8">
+                <div className="max-w-7xl mx-auto">
+                    {/* Hero Section */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1 }}
+                        className="text-center py-20 sm:py-28"
+                    >
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter uppercase">
+                           <span className="bg-clip-text text-transparent bg-gradient-to-br from-fuchsia-500 to-purple-600">PENTORA</span>
+                           <span className="block text-gray-400">Cyber Toolkit</span>
+                        </h1>
+                        <p className="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-gray-400">
+                            A curated & proprietary arsenal of industry-leading tools to elevate your security posture.
+                        </p>
+                        <motion.button
+                            whileHover={{ scale: 1.05, boxShadow: "0px 0px 30px rgba(168, 85, 247, 0.7)" }}
+                            whileTap={{ scale: 0.95 }}
+                            className="mt-10 inline-flex items-center gap-2 rounded-full bg-purple-600 px-8 py-4 text-lg font-semibold text-white transition-all duration-300"
+                        >
+                            <Eye className="h-5 w-5" />
+                            Visit Live Threat Monitor
+                        </motion.button>
+                    </motion.div>
+
+                    {/* Search and Filter */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.5 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="mb-16"
+                    >
+                        <form onSubmit={handleDomainSubmit} className="relative max-w-2xl mx-auto">
+                            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500" />
+                            <input
+                                name="domain"
+                                type="text"
+                                placeholder="Check your domain's security posture (e.g., example.com)"
+                                className="w-full rounded-full border border-purple-800/60 bg-gray-900/50 py-4 pl-14 pr-32 text-white placeholder-gray-500 transition-all focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            />
+                             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition-colors">
+                                Scan
+                            </button>
+                        </form>
+                        {scanError && <p className="text-center text-red-400 mt-2 text-sm animate-pulse">{scanError}</p>}
+                    </motion.div>
+                    {/* Tools Sections with Tracing Beam */}
+                    <CyberVFXBackground>
+                        <div className="space-y-20">
+                            {Object.entries(toolsData).map(([sectionTitle, tools], index) => (
+                                <ToolCategory 
+                                    key={sectionTitle} 
+                                    title={sectionTitle} 
+                                    tools={tools} 
+                                    isInitiallyOpen={index === 0}
+                                />
+                            ))}
+                        </div>
+                    </CyberVFXBackground>
+                   <div className='mt-20'>
+                    <Footer />
+                   </div>
+                </div>
+            </div>
+        </div>   
+    );
+};
+
+export default ToolsPage;
 

@@ -18,9 +18,9 @@ export default function Home() {
       <main>
         <Hero />
           <Clients />
-          {/* <Features /> */}
-          {/* <MoreFeatures /> */}
-          {/* <Templates /> */}
+          <Features />
+          <MoreFeatures />
+          <Templates />
           <SuperCard />
           <Testimonials />
           <ActionCard />
