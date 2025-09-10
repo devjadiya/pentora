@@ -112,7 +112,7 @@ const Navbar = () => {
           
           <div className="hidden md:flex items-center space-x-4">
             <Link href="#login" className="text-sm text-gray-300 hover:text-white transition-colors">Login</Link>
-            <Link href="#demo">
+            <Link href="/request-form">
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
