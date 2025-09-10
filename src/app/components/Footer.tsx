@@ -33,17 +33,6 @@ const footerSections = [
         ],
     },
     {
-        title: 'Documentation',
-        links: [
-            { name: 'Getting Started', href: '#' },
-            { name: 'API Reference', href: '#' },
-            { name: 'Integrations', href: '#' },
-            { name: 'Templates', href: '#' },
-            { name: 'CLI & SDKs', href: '#' },
-            { name: 'Compliance Guides', href: '#' },
-        ],
-    },
-    {
         title: 'Company',
         links: [
             { name: 'About Us', href: '#' },
