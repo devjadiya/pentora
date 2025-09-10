@@ -22,7 +22,7 @@ type AnimationStep = PreCommitStep | CommitStep | CardStep | SummaryStep;
 // --- Configuration for the animation sequence ---
 const animationSteps: AnimationStep[] = [
   { duration: 1500, type: 'pre-commit', text: 'Pushing new version of the AI system...' },
-  { duration: 1500, type: 'commit', user: 'Katherine Johnson', action: 'committed just now' },
+  { duration: 1500, type: 'commit', user: 'CEO Sandeep Verma', action: 'committed just now' },
   { duration: 1500, type: 'card', status: 'Registering commit', progress: '1 of 4' },
   { duration: 1500, type: 'card', status: 'Running tests', progress: '2 of 4' },
   { duration: 1500, type: 'card', status: 'Generating insights', progress: '3 of 4' },
@@ -126,7 +126,7 @@ const Hero = () => {
                                  exit={{ opacity: 0, y: 10 }}
                                  transition={{ duration: 0.3 }}
                              >
-                                <span><b>{currentStep.type === 'commit' ? currentStep.user : 'Katherine Johnson'}</b> <span className="opacity-70">{currentStep.type === 'commit' ? currentStep.action : 'committed just now'}</span></span>
+                                <span><b>{currentStep.type === 'commit' ? currentStep.user : 'CEO Sandeep Verma'}</b> <span className="opacity-70">{currentStep.type === 'commit' ? currentStep.action : 'committed just now'}</span></span>
                              </motion.div>
                          </AnimatePresence>
                     </div>

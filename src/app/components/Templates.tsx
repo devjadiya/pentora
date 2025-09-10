@@ -1,83 +1,140 @@
 'use client';
-import React from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Shield, Network, Cloud, DatabaseZap, BrainCircuit,
+  ClipboardCheck, BookUser, Target, RadioTower,
+  ToyBrick, Server, Users, Settings
+} from 'lucide-react';
 
-const templates = [
-    { title: "PDF extraction", description: "LangChain with Python", icon: "pdf" },
-    { title: "Question-answering retrieval", description: "RAG with Python", icon: "rag" },
-    { title: "Structured outputs", description: "Instructor and Claude with Python", icon: "structured" },
-    { title: "Simple chatbot", description: "OpenAI with Python", icon: "chatbot" },
-    { title: "Simple chatbot", description: "OpenAI with TypeScript", icon: "chatbot" },
-]
+const services = [
+  { title: "Application Security & VAPT", description: "Identify and remediate vulnerabilities in your applications before they can be exploited by malicious actors.", icon: Shield, image: "/assets/services/1.png" },
+  { title: "Network Security & VAPT", description: "Secure your network infrastructure against internal and external threats with continuous monitoring and penetration testing.", icon: Network, image: "/assets/services/2.png" },
+  { title: "Cloud-Native Security", description: "Comprehensive security for your cloud environments, from configuration management to container security.", icon: Cloud, image: "/assets/services/3.png" },
+  { title: "Data Security & Privacy Compliance", description: "Protect sensitive data and ensure compliance with regulations like GDPR and CCPA through robust data governance.", icon: DatabaseZap, image: "/assets/services/4.png" },
+  { title: "Infrastructure Security", description: "Defend your infrastructure from cyber threats with advanced monitoring and hardening.", icon: Server, image: "/assets/services/5.png" },
+  { title: "Cyber Threat Intelligence (CTI)", description: "Stay ahead of attackers with proactive threat hunting, IOC analysis, and dark web monitoring.", icon: BrainCircuit, image: "/assets/services/6.png" },
+  { title: "Security Audits & Compliance Readiness", description: "Achieve and maintain compliance with industry standards like ISO 27001, SOC 2, and PCI-DSS.", icon: ClipboardCheck, image: "/assets/services/7.png" },
+  { title: "Cybersecurity Consulting Services", description: "Expert guidance to help you build, optimize, and mature your security strategy.", icon: Users, image: "/assets/services/8.png" },
+  { title: "Red Team Assessments", description: "Simulate real-world, objective-based attacks to test your organization’s detection and response capabilities.", icon: Target, image: "/assets/services/9.png" },
+  { title: "Managed Security Services (MSS)", description: "End-to-end managed security operations to monitor, detect, and respond to threats in real-time.", icon: Settings, image: "/assets/services/10.png" },
+  { title: "Radio Frequency - Mesh VAPT", description: "Advanced vulnerability testing for RF mesh networks, including smart grids and industrial comms.", icon: RadioTower, image: "/assets/services/11.png" },
+  { title: "Scada/IOT Devices VAPT", description: "Specialized security testing for industrial control systems and Internet of Things (IoT) devices.", icon: ToyBrick, image: "/assets/services/12.png" },
+  { title: "Security Awareness & Training Programs", description: "Empower your employees to be the first line of defense against phishing, social engineering, and other threats.", icon: BookUser, image: "/assets/services/13.png" },
+];
 
-const TemplateCard = ({ title, description, icon }: { title: string, description: string, icon: string }) => {
-    return (
-        <motion.div 
-            className="w-[400px] h-[300px] bg-white/5 border border-white/10 rounded-3xl p-8 flex flex-col justify-between text-left shrink-0"
-            whileHover={{ y: -10, boxShadow: "0px 20px 40px rgba(144, 116, 240, 0.2)" }}
+const ServicesShowcase = () => {
+  const [activeService, setActiveService] = useState(services[0]);
+  const leftColRef = useRef<HTMLDivElement | null>(null);
+  const [leftHeight, setLeftHeight] = useState<number | null>(null);
+
+  // Sync height for image container to match left menu height
+  useEffect(() => {
+    if (leftColRef.current) {
+      setLeftHeight(leftColRef.current.offsetHeight);
+    }
+  }, [activeService]);
+
+  return (
+    <section className="relative bg-[#0A0514] text-white py-24 sm:py-32 overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:2rem_2rem] pointer-events-none z-0" />
+      <div className="absolute -left-48 -top-48 w-96 h-96 bg-gradient-to-br from-purple-900 to-transparent opacity-20 blur-3xl rounded-full z-0" />
+      <div className="absolute -right-48 -bottom-48 w-96 h-96 bg-gradient-to-tl from-blue-900 to-transparent opacity-20 blur-3xl rounded-full z-0" />
+
+      <div className="relative z-10 w-full max-w-screen-xl mx-auto px-4">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center max-w-3xl mx-auto"
         >
-            <div>
-                {/* Placeholder for icon */}
-                <div className="w-14 h-14 bg-purple-500/20 border border-purple-500/30 rounded-2xl mb-4"></div>
-                <h3 className="text-white font-bold text-lg">{title}</h3>
-                <p className="text-gray-400 text-sm">{description}</p>
-            </div>
-            <div>
-                 <button className="text-sm font-bold text-white px-4 py-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">Clone template</button>
-            </div>
+          <h3 className="text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-2 tracking-wider uppercase">Our Expertise</h3>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white leading-snug mb-4">Comprehensive Security Solutions</h2>
+          <p className="text-base text-gray-300 opacity-75 leading-relaxed">
+            Full-spectrum cybersecurity services: assessments, threat intel, compliance & response readiness.
+          </p>
         </motion.div>
-    )
-}
 
-const Templates = () => {
-    return (
-        <section className="relative py-32 flex flex-col items-center text-center">
-             <div className="absolute inset-0 grid-background"></div>
-             <div className="absolute left-1/2 -translate-x-1/2 top-0 w-48 h-48 bg-gradient-to-br from-purple-700 to-transparent opacity-30 blur-3xl"></div>
-             <motion.div 
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative z-10 max-w-2xl mx-auto px-4"
-            >
-                <h3 className="text-md font-normal bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-purple-500 mb-4">Templates</h3>
-                <h2 className="text-5xl font-bold text-white leading-tight mb-6">Get started in seconds</h2>
-                <p className="text-lg text-gray-300 opacity-65">
-                   Pick a template to accelerate your setup. Templates are sample projects with common AI patterns. They come pre-configured with all sorts of relevant tests.
-                </p>
-
-                <div className="mt-10 flex items-center justify-center space-x-6">
-                    <Link href="#start-template">
-                        <motion.button 
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-8 py-3 font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full shadow-lg shadow-purple-500/20">
-                            Start from a template
-                        </motion.button>
-                    </Link>
-                     <Link href="#browse-templates" className="font-bold text-white hover:text-gray-300 transition-colors flex items-center">
-                        Browse templates 
-                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                    </Link>
-                </div>
-            </motion.div>
-            <div className="w-full max-w-screen-xl mx-auto mt-20 relative">
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-gray-900/0 via-gray-900/0 to-gray-900 z-10 pointer-events-none"></div>
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-l from-gray-900/0 via-gray-900/0 to-gray-900 z-10 pointer-events-none"></div>
-                <div className="flex space-x-8 pb-8 overflow-x-auto">
-                    {/* Add a spacer to the left */}
-                    <div className="shrink-0 w-1/2 md:w-1/3"></div>
-                    {templates.map((template, index) => (
-                        <TemplateCard key={index} {...template} />
-                    ))}
-                     {/* Add a spacer to the right */}
-                    <div className="shrink-0 w-1/2 md:w-1/3"></div>
-                </div>
+        {/* Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+          className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10"
+        >
+          {/* Service Menu */}
+          <div
+            className="lg:col-span-4 flex flex-col gap-2 max-h-full overflow-y-auto"
+            ref={leftColRef}
+          >
+            <div className="lg:flex hidden flex-col gap-2">
+              {services.map(service => (
+                <button
+                  key={service.title}
+                  onClick={() => setActiveService(service)}
+                  className={`group p-3 rounded-md border transition-all duration-300 text-left text-sm
+                    ${activeService.title === service.title
+                      ? 'bg-white/10 border-purple-500 shadow-md shadow-purple-500/20'
+                      : 'bg-white/5 border-white/5 hover:border-white/10 hover:bg-white/10'
+                    }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <service.icon className={`w-5 h-5 transition-colors duration-300 ${activeService.title === service.title ? 'text-purple-400' : 'text-gray-400 group-hover:text-white'}`} />
+                    <span className="font-medium">{service.title}</span>
+                  </div>
+                </button>
+              ))}
             </div>
-        </section>
-    );
+
+            {/* Mobile Horizontal Scroll */}
+            <div className="lg:hidden flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory">
+              {services.map(service => (
+                <button
+                  key={service.title}
+                  onClick={() => setActiveService(service)}
+                  className={`group shrink-0 snap-start whitespace-nowrap px-3 py-2 rounded-lg border text-xs
+                    ${activeService.title === service.title
+                      ? 'bg-white/10 border-purple-500 text-purple-300'
+                      : 'bg-white/5 border-white/5 hover:bg-white/10'
+                    }`}
+                >
+                  {service.title}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Image Section */}
+          <div
+            className="lg:col-span-8 bg-black/20 border border-white/10 rounded-2xl p-5"
+            style={{ minHeight: leftHeight || 'auto' }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeService.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4, ease: 'easeInOut' }}
+              >
+                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">{activeService.title}</h3>
+                <p className="text-gray-400 text-sm mb-4 max-w-2xl">{activeService.description}</p>
+                <div className="w-full max-h-[400px] overflow-hidden rounded-lg border border-white/10">
+                  <img
+                    src={activeService.image}
+                    alt={activeService.title}
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 };
 
-export default Templates;
+export default ServicesShowcase;

@@ -17,15 +17,9 @@ const menuItems = {
     { title: "ML Observability", description: "Monitor your models in production", href: "#", icon: <BarChart size={16} /> },
     { title: "AI Governance", description: "AI compliance & governance", href: "#", icon: <Briefcase size={16} /> },
   ],
-  resources: [
-    { title: "Blog", description: "Our latest thoughts", href: "#", icon: <FileText size={16} /> },
-    { title: "Changelog", description: "Updates to the platform", href: "#", icon: <GitBranch size={16} /> },
-    { title: "Manifesto", description: "Our guide to a better AI future", href: "#", icon: <Book size={16} /> },
-    { title: "Glossary", description: "Key terms in AI", href: "#", icon: <Book size={16} /> },
-  ],
   company: [
     { title: "About us", description: "Learn about our mission", href: "#", icon: <LifeBuoy size={16} /> },
-    { title: "Careers", description: "Join our team", href: "#", icon: <Briefcase size={16} /> },
+    { title: "Careers", description: "Join our team", href: "/careers", icon: <Briefcase size={16} /> },
     { title: "Security", description: "How we protect your data", href: "#", icon: <Shield size={16} /> },
   ]
 };
@@ -107,6 +101,9 @@ const Navbar = () => {
             </Link>
             <Link href="/dashboard" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
              Threat Monitoring
+            </Link>
+               <Link href="/contact" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
+             Contact
             </Link>
           </div>
           
