@@ -3,55 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 // --- SVG Icon Components ---
-const GlobeIcon = ({ className }: { className?: string }) => (
-    <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-    </svg>
-);
-
 const AlertTriangleIcon = ({ className }: { className?: string }) => (
     <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
     </svg>
-);
-
-// --- Animated Globe Component ---
-const AnimatedGlobe = () => (
-    <div className="relative w-full h-full flex items-center justify-center">
-        <motion.div
-            className="absolute w-full h-full rounded-full"
-            style={{
-                background: 'radial-gradient(circle at center, rgba(79, 70, 229, 0.3) 0%, transparent 60%)',
-            }}
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-            className="w-full h-full"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-        >
-            <GlobeIcon className="w-full h-full text-indigo-400/50" />
-        </motion.div>
-        <motion.div
-            className="absolute w-2 h-2 bg-cyan-400 rounded-full"
-            style={{ top: '20%', left: '50%', transform: 'translate(-50%, -50%)' }}
-            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-            className="absolute w-2 h-2 bg-rose-500 rounded-full"
-            style={{ top: '50%', left: '25%', transform: 'translate(-50%, -50%)' }}
-            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-        />
-        <motion.div
-            className="absolute w-2 h-2 bg-amber-400 rounded-full"
-            style={{ top: '60%', left: '70%', transform: 'translate(-50%, -50%)' }}
-            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-    </div>
 );
 
 // --- Animated Counter Component ---
@@ -160,9 +117,9 @@ const GlobalSOC = () => {
                     <div className="lg:col-span-1 h-full">
                         <ThreatFeed />
                     </div>
-                    <div className="lg:col-span-2 h-full bg-black/20 p-6 rounded-lg border border-white/10 relative overflow-hidden">
-                        <h3 className="font-bold text-lg mb-4 text-white">Global Threat Activity</h3>
-                        <AnimatedGlobe />
+                    <div className="lg:col-span-2 h-full bg-black/20 p-6 rounded-lg border border-white/10 relative overflow-hidden flex items-center justify-center">
+                        <h3 className="absolute top-6 left-6 font-bold text-lg text-white">Global Threat Activity</h3>
+                        <img src="globe.png" alt="Globe" className="max-h-full max-w-full object-contain" />
                     </div>
                 </motion.div>
             </div>

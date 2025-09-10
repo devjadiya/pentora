@@ -49,7 +49,7 @@ const cybersecurityData = [
     {
         industry: 'Threat Intelligence',
         creator: 'AI Threat Matrix',
-        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop',
+        image: '/assets/services/2.png',
         slides: [
             { objective: 'Predictive Threat Modeling', description: 'Leveraged AI to analyze global networks, predicting and neutralizing zero-day exploits targeting SWIFT transfers.', stats: [{ value: '99.7%', label: 'Predictive Accuracy', details: 'Achieved near-perfect accuracy in identifying potential zero-day exploits.' }, { value: '<1 Min', label: 'Global Alert Time', details: 'Threat intelligence disseminated to all clients in under 60 seconds.' }] },
             { objective: 'Dark Web Monitoring', description: 'Proactively monitored dark web marketplaces for stolen credentials of a major retail client, leading to the takedown of a major phishing operation.', stats: [{ value: '2.1M', label: 'Credentials Secured', details: 'Identified and secured over 2.1 million compromised customer credentials.' }, { value: '15+', label: 'Marketplaces Disrupted', details: 'Facilitated the disruption of over 15 illicit online marketplaces.' }] },
@@ -59,7 +59,7 @@ const cybersecurityData = [
     {
         industry: 'Penetration Testing',
         creator: 'Project Chimera',
-        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop',        slides: [
+        image: '/assets/services/6.png',        slides: [
             { objective: 'Multi-Vector Attack Simulation', description: 'Conducted a comprehensive red team exercise for a Fortune 500 tech giant, identifying critical vulnerabilities in their new flagship cloud product pre-launch.', stats: [{ value: '47', label: 'Critical Risks Found', details: 'Identified vulnerabilities missed by automated scanners.' }, { value: '82%', label: 'Security Uplift', details: 'Post-remediation security posture score increased significantly.' }] },
             { objective: 'Social Engineering Test', description: 'Executed a sophisticated social engineering campaign against a major financial institution to test human-factor vulnerabilities.', stats: [{ value: '63%', label: 'Initial Breach Rate', details: 'Successfully deceived 63% of targeted high-level employees.' }, { value: '95%', label: 'Awareness Increase', details: 'Employee security awareness and reporting increased dramatically.' }] },
             { objective: 'IoT & Embedded Device Testing', description: 'Performed in-depth hardware and firmware analysis on medical IoT devices, preventing potential remote exploitation that could have compromised patient safety.', stats: [{ value: '5', label: 'Zero-Day Exploits', details: 'Discovered five new zero-day vulnerabilities in the device firmware.' }, { value: 'FDA', label: 'Compliance Assured', details: 'Ensured full FDA cybersecurity compliance prior to market release.' }] }
@@ -68,7 +68,7 @@ const cybersecurityData = [
     {
         industry: 'Cloud Security',
         creator: 'Project Stratus',
-        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop',        slides: [
+        image: '/assets/services/5.png',        slides: [
             { objective: 'Secure Multi-Cloud Migration', description: 'Orchestrated the secure migration of a leading e-commerce platform to a multi-cloud environment (AWS, Azure, GCP), ensuring zero downtime.', stats: [{ value: '100%', label: 'Data Integrity', details: 'Achieved zero data loss across 50 petabytes of migrated data.' }, { value: '40%', label: 'Cost Reduction', details: 'Optimized cloud security configurations, reducing related overheads.' }] },
             { objective: 'Kubernetes Security Hardening', description: 'Secured the container orchestration platform for a FinTech startup, implementing policies and monitoring to prevent container escape.', stats: [{ value: '99%', label: 'Misconfigurations Fixed', details: 'Remediated 99% of identified security misconfigurations in K8s clusters.' }, { value: '3x', label: 'Faster Deployments', details: 'Secure-by-design approach enabled a 3x increase in deployment velocity.' }] },
             { objective: 'Serverless Security Architecture', description: 'Designed a secure serverless architecture for a media streaming service, protecting against injection attacks and ensuring proper IAM permissions.', stats: [{ value: '100%', label: 'Injection-Proof', details: 'Successfully mitigated all OWASP Top 10 serverless vulnerabilities.' }, { value: '60%', label: 'Cost Savings', details: 'Reduced compute costs by 60% while enhancing security posture.' }] }
@@ -77,7 +77,7 @@ const cybersecurityData = [
     {
         industry: 'Incident Response',
         creator: 'Case File #73-A',
-        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop',        slides: [
+        image: '/assets/services/3.png',        slides: [
             { objective: 'Nation-State Actor Neutralization', description: 'Led the incident response for a national infrastructure provider targeted by a state-sponsored APT group, successfully containing the breach within 72 hours.', stats: [{ value: '<3 hrs', label: 'Containment Time', details: 'Breach contained and lateral movement stopped in under 3 hours.' }, { value: 'Full', label: 'Asset Recovery', details: 'Full recovery of all encrypted assets with complete forensic evidence.' }] },
             { objective: 'Ransomware Recovery', description: 'Managed a large-scale ransomware attack on a healthcare system. Led recovery efforts and strategic negotiation, restoring critical patient services 90% faster than average.', stats: [{ value: '90%', label: 'Faster Recovery', details: 'Restored critical systems 90% faster than the industry average.' }, { value: '70%', label: 'Ransom Reduction', details: 'Negotiated a 70% reduction in the final ransom payment.' }] },
             { objective: 'Business Email Compromise (BEC)', description: 'Investigated a complex BEC fraud case targeting a private equity firm, tracing the funds through cryptocurrency exchanges and aiding law enforcement in recovery.', stats: [{ value: '$5.2M', label: 'Funds Recovered', details: 'Successfully traced and aided in the recovery of over $5.2 million.' }, { value: '100%', label: 'Attribution', details: 'Provided complete attribution of the threat actor group to the FBI.' }] }
@@ -86,7 +86,7 @@ const cybersecurityData = [
     {
         industry: 'Vulnerability Mgmt.',
         creator: 'Project Sentinel',
-        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop',        slides: [
+        image: '/assets/services/10.png',        slides: [
             { objective: 'Continuous Risk Assessment', description: 'Deployed a continuous vulnerability management program for a global pharmaceutical company, reducing their attack surface and ensuring regulatory compliance.', stats: [{ value: '98%', label: 'Attack Surface Reduction', details: 'Reduced discoverable critical vulnerabilities by 98% in six months.' }, { value: 'Zero', label: 'Compliance Breaches', details: 'Maintained a perfect record of zero compliance-related breaches.' }] },
             { objective: 'OT & SCADA Systems Security', description: 'Implemented a vulnerability management program for the industrial control systems of a national power grid operator, protecting critical infrastructure.', stats: [{ value: '100%', label: 'Network Segregation', details: 'Achieved complete IT/OT network segregation to protect ICS systems.' }, { value: 'Zero', label: 'Unplanned Downtime', details: 'Zero instances of unplanned downtime related to security events.' }] },
             { objective: 'Application Portfolio Scanning', description: 'Integrated static and dynamic code analysis into the CI/CD pipeline for a software company, scanning over 500 applications and reducing security bugs by 85%.', stats: [{ value: '-85%', label: 'Security Bugs', details: 'Reduced the number of security-related bugs pushed to production.' }, { value: 'Shift-Left', label: 'DevSecOps Culture', details: 'Successfully embedded a "shift-left" security culture in the dev teams.' }] }
@@ -95,7 +95,7 @@ const cybersecurityData = [
     {
         industry: 'AI in Security',
         creator: 'Project Cerebrum',
-        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop',        slides: [
+        image: '/assets/services/7.png',        slides: [
             { objective: 'AI-Powered SOC Augmentation', description: 'Integrated our AI engine into the SOC of a major telecom provider, automating Level 1 analysis and reducing analyst fatigue.', stats: [{ value: '90%', label: 'Alert Triage Automation', details: 'Automated the initial analysis of 90% of incoming security alerts.' }, { value: '+300%', label: 'Analyst Efficiency', details: 'Freed up senior analysts, tripling their effective output.' }] },
             { objective: 'Insider Threat Detection', description: 'Deployed a user behavior analytics (UBA) platform for an investment bank, using machine learning to detect anomalous activity indicative of insider threats.', stats: [{ value: '100%', label: 'Data Exfil Prevention', details: 'Successfully prevented multiple high-risk data exfiltration attempts.' }, { value: '-75%', label: 'False Positives', details: 'Reduced false positive alerts for insider threats by 75%.' }] },
             { objective: 'AI-Driven Phishing Analysis', description: 'Developed a custom AI model to analyze and categorize phishing emails in real-time for a large enterprise, blocking malicious links with greater accuracy.', stats: [{ value: '99.9%', label: 'Detection Rate', details: 'Achieved a 99.9% detection rate for spear-phishing and BEC attacks.' }, { value: '<1s', label: 'Analysis Time', details: 'Analyzed and blocked threats in real-time, in less than one second.' }] }
