@@ -1,14 +1,13 @@
 import { notFound } from 'next/navigation';
-import { FileExplorer } from '@/app/components/tools/FileExplorer';
-import Navbar from '@/app/components/Navbar';
-import Footer from '@/app/components/Footer';
+import { FileExplorer } from '../../components/tools/FileExplorer';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
-import { toolsData } from '../page'; // Import data from the parent page
+import { toolsData } from '@/lib/toolData';// CORRECTED IMPORT
 
 // Re-creating a simplified type here for clarity
 type FileNode = { name: string; path: string; type: 'file' | 'folder'; children?: FileNode[]; };
-
 
 // Fetch the file tree for a specific tool from our new API route
 async function getToolFileTree(toolSlug: string): Promise<FileNode[] | null> {
@@ -29,7 +28,7 @@ async function getToolFileTree(toolSlug: string): Promise<FileNode[] | null> {
 // Get static details about the tool
 function getToolDetails(toolSlug: string) {
     for (const category in toolsData) {
-        const tool = toolsData[category].find(t => t.id === toolSlug);
+        const tool = (toolsData as any)[category].find((t: any) => t.id === toolSlug);
         if (tool) return tool;
     }
     return null;
