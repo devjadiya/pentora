@@ -67,8 +67,8 @@ const Navbar = () => {
     <>
       {/* Top banner */}
       <div className="sticky top-0 z-50 flex items-center justify-center w-full h-10 bg-black/70 backdrop-blur-lg text-white/80 px-4">
-        <Link href="#" className="hover:underline text-center text-xs sm:text-sm">
-          Announcing our $14.5M Series A! Read the blog post →
+        <Link href="/threat-monitoring" className="hover:underline text-center text-xs sm:text-sm">
+          Announcing our threat monitoring global security dashboard →
         </Link>
       </div>
 
