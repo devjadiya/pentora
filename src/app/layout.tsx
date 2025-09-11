@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Pentora: AI evaluation and observability for enterprises",
-  description: "Test, monitor, and govern AI systems from ML to LLMs. Pentora's enterprise platform brings unified AI evaluation, observability, and governance to every stage of the AI lifecycle.",
+  title: "Pentora: CyberSecurity and observability for enterprises",
+  description: "CyberSecurity and observability for enterprises. Monitor, detect, and respond to threats in real-time with Pentora's advanced security solutions. Protect your business today.",
 };
 
 export default function RootLayout({
