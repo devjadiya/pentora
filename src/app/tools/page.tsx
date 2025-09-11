@@ -317,6 +317,7 @@ const ToolsPage = () => {
                         >
                             <Eye className="h-5 w-5" />
                             Visit Live Threat Monitor
+                            <Link href="/threat-monitoring" rel="noopener noreferrer" className="absolute inset-0" />
                         </motion.button>
                     </motion.div>
 
