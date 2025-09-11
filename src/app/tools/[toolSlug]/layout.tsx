@@ -1,17 +1,30 @@
 import { notFound } from 'next/navigation';
-import { FileExplorer } from '../../components/tools/FileExplorer';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+import { FileExplorer } from '@/app/components/tools/FileExplorer';
+import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
-import { toolsData } from '@/lib/toolData';// CORRECTED IMPORT
+import { toolsData } from '@/lib/toolData';
 
 // Re-creating a simplified type here for clarity
 type FileNode = { name: string; path: string; type: 'file' | 'folder'; children?: FileNode[]; };
 
-// Fetch the file tree for a specific tool from our new API route
+// ** NEW FUNCTION TO FIX 404 ERRORS ON VERCEL **
+// This function tells Next.js which dynamic pages to build ahead of time.
+export async function generateStaticParams() {
+    // Flatten all tools from all categories into a single array
+    const allTools = Object.values(toolsData).flatMap(tools => tools);
+
+    // Map over the tools to create an array of objects with the `toolSlug` key
+    return allTools.map(tool => ({
+        toolSlug: tool.id,
+    }));
+}
+
+
+// Fetch the file tree for a specific tool from our API route
 async function getToolFileTree(toolSlug: string): Promise<FileNode[] | null> {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.trypentora.com";
     try {
         const res = await fetch(`${baseUrl}/api/repo/${toolSlug}/file-tree`, {
             next: { revalidate: 3600 } // Cache for 1 hour
@@ -83,3 +96,4 @@ export default async function ToolDetailLayout({ children, params }: { children:
         </div>
     );
 }
+
