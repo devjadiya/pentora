@@ -19,7 +19,7 @@ const menuItems = {
     { title: "AI Compliance Vault", description: "Enterprise governance & regulatory alignment", href: "#", icon: <Briefcase size={16} /> },
   ],
   company: [
-    { title: "Our Legacy", description: "Excellence in global cybersecurity", href: "#", icon: <LifeBuoy size={16} /> },
+    { title: "Our Legacy", description: "Excellence in global cybersecurity", href: "/threat-monitoring", icon: <LifeBuoy size={16} /> },
     { title: "Elite Careers", description: "Work with the industry's best minds", href: "/careers", icon: <Briefcase size={16} /> },
     { title: "Fortress Security", description: "Zero-trust by design, always", href: "#", icon: <Shield size={16} /> },
   ]
@@ -105,7 +105,7 @@ const Navbar = () => {
             <Link href="/tools" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
               Platform Tools
             </Link>
-            <Link href="/dashboard" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
+            <Link href="/threat-monitoring" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
               Threat Monitoring
             </Link>
             <Link href="/contact" className="h-full flex items-center px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-md transition-colors">
