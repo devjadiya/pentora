@@ -1,12 +1,24 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shield, Network, Cloud, DatabaseZap, BrainCircuit,
   ClipboardCheck, BookUser, Target, RadioTower,
   ToyBrick, Server, Users, Settings
 } from 'lucide-react';
+
+// NOTE: For the mobile horizontal menu, you'll want to hide the scrollbar for a cleaner look.
+// Add this to your global CSS file (e.g., globals.css):
+/*
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+*/
 
 const services = [
   { title: "Application Security & VAPT", description: "Identify and remediate vulnerabilities in your applications before they can be exploited by malicious actors.", icon: Shield, image: "/assets/services/1.png" },
@@ -26,18 +38,10 @@ const services = [
 
 const Templates = () => {
   const [activeService, setActiveService] = useState(services[0]);
-  const leftColRef = useRef<HTMLDivElement | null>(null);
-  const [leftHeight, setLeftHeight] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (leftColRef.current) {
-      setLeftHeight(leftColRef.current.offsetHeight);
-    }
-  }, [activeService]);
 
   return (
-    <section className="relative bg-[#0A0514] text-white py-24 sm:py-32 overflow-hidden">
-      {/* Decorative background */}
+    <section className="relative bg-[#0A0514] text-white py-20 sm:py-28 overflow-hidden">
+      {/* Decorative background elements */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:2rem_2rem] pointer-events-none z-0" />
       <div className="absolute -left-48 -top-48 w-96 h-96 bg-gradient-to-br from-purple-900 to-transparent opacity-20 blur-3xl rounded-full z-0" />
       <div className="absolute -right-48 -bottom-48 w-96 h-96 bg-gradient-to-tl from-blue-900 to-transparent opacity-20 blur-3xl rounded-full z-0" />
@@ -50,9 +54,9 @@ const Templates = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center max-w-3xl mx-auto"
         >
-          <h3 className="text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-2 tracking-wider uppercase">Our Expertise</h3>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white leading-snug mb-4">Comprehensive Security Solutions</h2>
-          <p className="text-base text-gray-300 opacity-75 leading-relaxed">
+          <h3 className="text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-3 tracking-wider uppercase">Our Expertise</h3>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4">Comprehensive Security Solutions</h2>
+          <p className="text-md md:text-lg text-gray-400 leading-relaxed">
             Full-spectrum cybersecurity services: assessments, threat intel, compliance & response readiness.
           </p>
         </motion.div>
@@ -62,43 +66,40 @@ const Templates = () => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10"
+          className="mt-16 lg:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-8"
         >
           {/* Left Column - Service Menu */}
-          <div
-            className="lg:col-span-4 flex flex-col gap-2 max-h-full overflow-y-auto"
-            ref={leftColRef}
-          >
+          <div className="lg:col-span-4 flex flex-col gap-2">
             {/* Desktop Vertical Menu */}
             <div className="lg:flex hidden flex-col gap-2">
               {services.map(service => (
                 <button
                   key={service.title}
                   onClick={() => setActiveService(service)}
-                  className={`group p-3 rounded-md border transition-all duration-300 text-left text-sm
+                  className={`group p-4 rounded-lg border transition-all duration-300 text-left text-base
                     ${activeService.title === service.title
-                      ? 'bg-white/10 border-purple-500 shadow-md shadow-purple-500/20'
-                      : 'bg-white/5 border-white/5 hover:border-white/10 hover:bg-white/10'
+                      ? 'bg-white/10 border-purple-500 shadow-lg shadow-purple-500/20'
+                      : 'bg-white/5 border-white/10 hover:border-purple-500/50 hover:bg-white/10 hover:-translate-y-1'
                     }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <service.icon className={`w-5 h-5 transition-colors duration-300 ${activeService.title === service.title ? 'text-purple-400' : 'text-gray-400 group-hover:text-white'}`} />
-                    <span className="font-medium">{service.title}</span>
+                  <div className="flex items-center gap-4">
+                    <service.icon className={`w-6 h-6 shrink-0 transition-colors duration-300 ${activeService.title === service.title ? 'text-purple-400' : 'text-gray-400 group-hover:text-white'}`} />
+                    <span className="font-semibold">{service.title}</span>
                   </div>
                 </button>
               ))}
             </div>
 
-            {/* Mobile Horizontal Scroll */}
-            <div className="lg:hidden flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory">
+            {/* Mobile Horizontal Scroll Menu */}
+            <div className="lg:hidden flex gap-3 overflow-x-auto pb-4 hide-scrollbar">
               {services.map(service => (
                 <button
                   key={service.title}
                   onClick={() => setActiveService(service)}
-                  className={`group shrink-0 snap-start whitespace-nowrap px-3 py-2 rounded-lg border text-xs
+                  className={`group shrink-0 snap-start whitespace-nowrap px-4 py-2 rounded-lg border text-sm font-medium
                     ${activeService.title === service.title
-                      ? 'bg-white/10 border-purple-500 text-purple-300'
-                      : 'bg-white/5 border-white/5 hover:bg-white/10'
+                      ? 'bg-purple-500/20 border-purple-500 text-white'
+                      : 'bg-white/5 border-white/10 hover:bg-white/20'
                     }`}
                 >
                   {service.title}
@@ -107,34 +108,42 @@ const Templates = () => {
             </div>
           </div>
 
-          {/* Right Column - Image/Details */}
-          <div
-            className="lg:col-span-8 bg-black/20 border border-white/10 rounded-2xl p-5"
-            style={{ minHeight: leftHeight || 'auto' }}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeService.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, ease: 'easeInOut' }}
-              >
-                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">{activeService.title}</h3>
-                <p className="text-gray-400 text-sm mb-4 max-w-2xl">{activeService.description}</p>
-                <div className="w-full max-h-[400px] overflow-hidden rounded-lg border border-white/10">
-                  <img
-                    src={activeService.image}
-                    alt={activeService.title}
-                    className="w-full h-auto object-cover"
-                  />
-                </div>
-              </motion.div>
-            </AnimatePresence>
+          {/* Right Column - Content Display */}
+          <div className="lg:col-span-8">
+            <div className="bg-gradient-to-br from-white/[.07] to-transparent border border-white/10 rounded-2xl p-6 md:p-8 h-full flex flex-col">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeService.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4, ease: 'easeInOut' }}
+                  className="flex flex-col flex-grow"
+                >
+                  {/* Text Content */}
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">{activeService.title}</h3>
+                    <p className="text-base text-gray-300 leading-relaxed max-w-2xl">{activeService.description}</p>
+                  </div>
+
+                  {/* Image Content - Pushed to the bottom */}
+                  <div className="mt-auto pt-6">
+                    <div className="aspect-video w-full overflow-hidden rounded-xl border border-white/10 group">
+                      <img
+                        src={activeService.image}
+                        alt={activeService.title}
+                        className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </motion.div>
       </div>
     </section>
   );
 }
+
 export default Templates;
