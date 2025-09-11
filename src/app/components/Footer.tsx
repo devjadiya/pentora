@@ -6,42 +6,37 @@ import {
     FaDiscord,
     FaLinkedin
 } from 'react-icons/fa6'; // or use 'react-icons/fa' if FaXTwitter is not available
+import { Target } from 'lucide-react';
 
 // Updated footer link sections based on your site content
 const footerSections = [
     {
         title: 'Products',
         links: [
-            { name: 'Threat Monitoring', href: '#' },
-            { name: 'Application Security', href: '#' },
-            { name: 'Cloud-Native Security', href: '#' },
-            { name: 'Infrastructure Security', href: '#' },
-            { name: 'Data Security', href: '#' },
-            { name: 'Security Automation', href: '#' },
-            { name: 'AI-Powered Co-Pilot', href: '#' },
+            { name: 'Encoderspro', href: 'https://encoderspro.com' },
+            { name: 'Pentellia', href: '#' },
         ],
     },
     {
         title: 'Resources',
         links: [
-            { name: 'Blog', href: '#' },
-            { name: 'Live Threat Feed', href: '#' },
-            { name: 'Security Audits', href: '#' },
-            { name: 'Case Studies', href: '#' },
-            { name: 'Training Programs', href: '#' },
-            { name: 'Request Demo', href: '#' },
+            { name: 'Live Threat Feed', href: '/dashboard' },
+            { name: 'Security Tools', href: '/tools' },
+            { name: 'Request Demo', href: '/request-form' },
         ],
     },
     {
         title: 'Company',
         links: [
-            { name: 'About Us', href: '#' },
-            { name: 'Leadership', href: '#' },
-            { name: 'Careers', href: '#' },
-            { name: 'Contact', href: '#' },
-            { name: 'Terms of Service', href: '#' },
-            { name: 'Privacy Policy', href: '#' },
-            { name: 'Security & Disclosure', href: '#' },
+            { name: 'Careers', href: '/careers' },
+            { name: 'Contact', href: '/contact' },
+        ],
+    },
+    {
+        title: 'Education',
+        links: [
+            { name: 'Training Programs', href: 'https://encoderspro.com/classes?sort=newest' },
+            { name: 'Experts', href: 'https://encoderspro.com/instructor-finder' },
         ],
     },
 ];
