@@ -64,75 +64,75 @@ const Hero = () => {
   const cardData = animationSteps.find(s => s.type === 'card' && currentStep.type === 'card' && s.status === currentStep.status) || animationSteps[2];
   
   return (
-    <section className="relative w-full text-white pt-24 pb-32 flex justify-center overflow-hidden min-h-[90vh]">
+    <section className="relative w-full text-white pt-20 pb-20 lg:pt-24 lg:pb-32 flex justify-center overflow-hidden min-h-[90vh]">
       <div className="absolute inset-0 grid-background"></div>
       <div className="absolute top-0 left-0 w-1/2 h-48 bg-gradient-to-br from-purple-700 to-transparent opacity-30 blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-1/2 h-48 bg-gradient-to-tl from-indigo-700 to-transparent opacity-30 blur-3xl"></div>
       
-      <div className="w-full max-w-screen-xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-start">
+      <div className="w-full max-w-screen-xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
         {/* Left Side: Text Content */}
-<motion.div 
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5 }}
-  className="relative z-20 text-left pt-12"
->
-  <h1 className="text-5xl md:text-6xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
-    <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600">
-      Enterprise-Grade Cybersecurity
-    </span>{" "}
-    for a Secure Digital Future
-  </h1>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-20 text-center lg:text-left pt-8 lg:pt-12"
+        >
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600">
+              Enterprise-Grade Cybersecurity
+            </span>{" "}
+            for a Secure Digital Future
+          </h1>
 
-  <h3 className="mt-6 text-lg text-gray-300 opacity-65">
-    Protect your infrastructure, cloud, and data with next-gen security solutions built to detect, prevent, and respond to threats in real-time. 
-    Stay ahead of cyber risks with Pentora the modern alternative to legacy security platforms.
-  </h3>
+          <h3 className="mt-6 text-base md:text-lg text-gray-300 opacity-65 max-w-xl mx-auto lg:mx-0">
+            Protect your infrastructure, cloud, and data with next-gen security solutions built to detect, prevent, and respond to threats in real-time. 
+            Stay ahead of cyber risks with Pentora the modern alternative to legacy security platforms.
+          </h3>
 
-  <div className="mt-10">
-    <motion.button 
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="px-8 py-3 font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full shadow-lg shadow-purple-500/20"
-    >
-      <Link href="/request-form" className="absolute inset-0 w-full h-full"></Link>
-      Secure My Company Now
-    </motion.button>
-  </div>
-</motion.div>
+          <div className="mt-10 flex justify-center lg:justify-start">
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="relative px-8 py-3 font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full shadow-lg shadow-purple-500/20"
+            >
+              <Link href="/request-form" className="absolute inset-0 w-full h-full"></Link>
+              Secure My Company Now
+            </motion.button>
+          </div>
+        </motion.div>
       
         {/* Right Side: Animation Container */}
-        <div className="relative h-[600px] w-full">
-            <div className="absolute top-[-64px] left-[20%] w-full h-full">
+        <div className="relative h-[550px] lg:h-[600px] w-full mt-12 lg:mt-0">
+            <div className="absolute w-[550px] h-full top-[-64px] left-1/2 -translate-x-1/2 lg:left-[20%] lg:translate-x-0 origin-top scale-[0.7] sm:scale-[0.85] md:scale-90 lg:scale-100">
                 {/* The Tracing Beam */}
                 <div className="absolute top-0 left-0 h-full w-0.5 bg-white/10 z-10">
                 </div>
 
                 {/* Top Node & Commit Text */}
-                 <motion.div
+                  <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="absolute top-[88px] -left-5 flex items-center z-30"
-                 >
+                  >
                     <div className="w-10 h-10 rounded-full bg-[#04010E] border border-white/10 flex items-center justify-center">
-                         <GitCommitHorizontal size={18} />
+                        <GitCommitHorizontal size={18} />
                     </div>
-                     <div className="ml-4 text-sm text-gray-300 flex items-center space-x-2 whitespace-nowrap">
+                      <div className="ml-4 text-sm text-gray-300 flex items-center space-x-2 whitespace-nowrap">
                         <Image src="https://ugc.production.linktr.ee/m7xEJP1xTumDeJkVIqpj_73txc4bV5F26k74A?io=true&size=avatar-v3_0" width={24} height={24} alt="avatar" className="rounded-full" />
-                         <AnimatePresence mode="wait">
-                             <motion.div
-                                 key={stepIndex}
-                                 initial={{ opacity: 0, y: -10 }}
-                                 animate={{ opacity: 1, y: 0 }}
-                                 exit={{ opacity: 0, y: 10 }}
-                                 transition={{ duration: 0.3 }}
-                             >
-                                <span><b>{currentStep.type === 'commit' ? currentStep.user : 'CEO Sandeep Verma'}</b> <span className="opacity-70">{currentStep.type === 'commit' ? currentStep.action : 'committed just now'}</span></span>
-                             </motion.div>
-                         </AnimatePresence>
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={stepIndex}
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 10 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                              <span><b>{currentStep.type === 'commit' ? currentStep.user : 'CEO Sandeep Verma'}</b> <span className="opacity-70">{currentStep.type === 'commit' ? currentStep.action : 'committed just now'}</span></span>
+                            </motion.div>
+                        </AnimatePresence>
                     </div>
-                 </motion.div>
+                  </motion.div>
 
                 {/* Card */}
                 <motion.div
@@ -185,30 +185,30 @@ const Hero = () => {
                     </div>
                 </motion.div>
                 
-                 {/* Summary Node */}
-                 <AnimatePresence>
+                  {/* Summary Node */}
+                  <AnimatePresence>
                     {currentStep.type === 'summary' && (
-                         <motion.div
-                            key="summary-node"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0}}
-                            transition={{delay: 0.5}}
-                            className="absolute top-[550px] -left-5 flex items-center z-20"
-                         >
-                            <div className="w-10 h-10 rounded-full bg-[#04010E] border border-white/10 flex items-center justify-center">
-                                 <CheckCircle2 size={16} className="text-green-400"/>
-                            </div>
-                            <div className="ml-4 flex items-center space-x-4">
-                                <span className="text-xs flex items-center text-green-400"><CheckCircle2 size={12} className="mr-1"/> {currentStep.passing} tests passing</span>
-                                <span className="text-xs flex items-center text-red-400"><XCircle size={12} className="mr-1"/> {currentStep.failing} tests failing</span>
-                            </div>
-                         </motion.div>
+                        <motion.div
+                          key="summary-node"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0}}
+                          transition={{delay: 0.5}}
+                          className="absolute top-[550px] -left-5 flex items-center z-20"
+                        >
+                          <div className="w-10 h-10 rounded-full bg-[#04010E] border border-white/10 flex items-center justify-center">
+                              <CheckCircle2 size={16} className="text-green-400"/>
+                          </div>
+                          <div className="ml-4 flex items-center space-x-4">
+                              <span className="text-xs flex items-center text-green-400"><CheckCircle2 size={12} className="mr-1"/> {currentStep.passing} tests passing</span>
+                              <span className="text-xs flex items-center text-red-400"><XCircle size={12} className="mr-1"/> {currentStep.failing} tests failing</span>
+                          </div>
+                        </motion.div>
                     )}
-                 </AnimatePresence>
+                  </AnimatePresence>
 
-                 {/* Loader Node */}
-                 <AnimatePresence>
+                  {/* Loader Node */}
+                  <AnimatePresence>
                     {stepIndex >= 2 && stepIndex < 5 && (
                         <motion.div 
                             key="loader-node"
@@ -217,14 +217,14 @@ const Hero = () => {
                             exit={{ opacity: 0 }}
                             className="absolute top-[350px] -left-5 flex items-center z-20"
                         >
-                             <div className="w-10 h-10 rounded-full bg-[#04010E] border border-white/10 flex items-center justify-center">
+                            <div className="w-10 h-10 rounded-full bg-[#04010E] border border-white/10 flex items-center justify-center">
                                 <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
                                     <Loader size={18} className="text-purple-400"/>
                                 </motion.div>
-                             </div>
+                            </div>
                         </motion.div>
                     )}
-                 </AnimatePresence>
+                  </AnimatePresence>
             </div>
         </div>
       </div>
