@@ -92,7 +92,8 @@ const LiveThreatChart = () => {
                     borderColor: [
                         '#ef4444', '#f97316', '#eab308', '#84cc16', '#3b82f6', '#a855f7'
                     ],
-                    borderWidth: 1
+                    borderWidth: 1.5,
+                    borderRadius: 4,
                 }]
             },
             options: {
@@ -101,8 +102,14 @@ const LiveThreatChart = () => {
                 maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
-                    x: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255,255,255,0.1)' } },
-                    y: { ticks: { color: '#9ca3af' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                    x: { 
+                        ticks: { color: '#9ca3af', font: { size: 10 } }, 
+                        grid: { color: 'rgba(255,255,255,0.05)' } 
+                    },
+                    y: { 
+                        ticks: { color: '#e5e7eb', font: { size: 10 } }, 
+                        grid: { color: 'rgba(255,255,255,0.05)' } 
+                    }
                 }
             }
         });
@@ -130,15 +137,15 @@ const ServiceCard: React.FC<{ icon: React.ElementType; title: string; descriptio
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.5, delay }}
-            className="group relative bg-gray-900/50 backdrop-blur-lg p-6 rounded-xl border border-purple-900/50 transition-all duration-300 hover:border-purple-500 hover:bg-gray-900"
+            className="group relative bg-white/5 backdrop-blur-lg p-6 rounded-xl border border-white/10 transition-all duration-300 hover:border-purple-400 hover:bg-white/10"
         >
             <div className="flex items-center gap-4">
-                <div className="p-3 bg-gray-800 rounded-lg group-hover:bg-purple-600 transition-colors">
-                    <Icon className="w-6 h-6 text-purple-400 group-hover:text-white transition-colors" />
+                <div className="p-3 bg-white/10 rounded-lg group-hover:bg-purple-600 transition-colors duration-300">
+                    <Icon className="w-6 h-6 text-purple-400 group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="text-xl font-bold text-white">{title}</h3>
+                <h3 className="text-lg font-semibold text-white">{title}</h3>
             </div>
-            <p className="text-gray-400 mt-4">{description}</p>
+            <p className="text-gray-400 mt-4 text-sm leading-relaxed">{description}</p>
         </motion.div>
     );
 };
@@ -166,7 +173,7 @@ const Card: React.FC<{ children: React.ReactNode; className?: string; }> = ({ ch
         <motion.div
             ref={cardRef}
             style={{ scale: scaleProgress, opacity: opacityProgress }}
-            className={`card-container group relative bg-gray-900/60 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-purple-900/50 transition-all duration-300 ease-out h-full ${className}`}
+            className={`card-container group relative bg-white/5 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-white/10 transition-all duration-300 ease-out h-full ${className}`}
         >
             {children}
         </motion.div>
@@ -185,75 +192,90 @@ const SuperCard: React.FC = () => {
     ];
     
     return (
-        <section className="relative bg-black text-gray-200 min-h-screen py-24 px-4 md:px-12 font-sans overflow-hidden">
+        <section className="relative bg-black text-gray-200 min-h-screen py-20 sm:py-24 px-4 sm:px-6 md:px-8 font-sans overflow-hidden">
             <BackgroundAnimation />
              <style jsx global>{`
-                @property --mouse-x { syntax: '<length>'; initial-value: 0px; inherits: false; }
-                @property --mouse-y { syntax: '<length>'; initial-value: 0px; inherits: false; }
-                .card-container::before {
-                    content: "";
-                    position: absolute; inset: -1px;
-                    border-radius: inherit;
-                    opacity: 0;
-                    background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(168, 85, 247, 0.25), transparent 40%);
-                    transition: opacity 0.4s;
-                    pointer-events: none;
-                }
-                .group:hover::before { opacity: 1; }
-                .no-scrollbar::-webkit-scrollbar { display: none; }
-                .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-            `}</style>
+                 @property --mouse-x { syntax: '<length>'; initial-value: 0px; inherits: false; }
+                 @property --mouse-y { syntax: '<length>'; initial-value: 0px; inherits: false; }
+                 .card-container::before {
+                     content: "";
+                     position: absolute; inset: -1.5px;
+                     border-radius: inherit;
+                     opacity: 0;
+                     background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(168, 85, 247, 0.25), transparent 40%);
+                     transition: opacity 0.4s;
+                     pointer-events: none;
+                 }
+                 .group:hover::before { opacity: 1; }
+                 .no-scrollbar::-webkit-scrollbar { display: none; }
+                 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+             `}</style>
             
             <div className="max-w-screen-2xl mx-auto relative z-10">
-                <motion.div initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{duration: 0.8}} className="text-center mb-20 md:mb-32">
-                    <h1 className="text-5xl md:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
+                <motion.div 
+                    initial={{opacity: 0, y: 20}} 
+                    animate={{opacity: 1, y: 0}} 
+                    transition={{duration: 0.8}} 
+                    className="text-center mb-20 md:mb-28"
+                >
+                    <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400 leading-tight">
                         PENTORA
                     </h1>
-                    <p className="text-purple-400 mt-4 max-w-3xl mx-auto text-xl md:text-2xl font-semibold">
+                    <p className="text-purple-400 mt-4 max-w-3xl mx-auto text-base sm:text-lg md:text-xl font-semibold">
                         Secure Your Data, Secure Your Future.
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
                     
                     <Card className="lg:col-span-8 lg:row-span-2">
-                        <h3 className="text-3xl font-bold text-white mb-4">Live Global Threat Analysis</h3>
-                        <p className="text-gray-400 mb-6">Our Security Operations Center (SOC) monitors global threats 24/7, providing real-time insights and immediate response capabilities.</p>
-                        <div className="h-[450px]">
+                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Live Global Threat Analysis</h3>
+                        <p className="text-gray-400 mb-6 text-sm sm:text-base">Our Security Operations Center (SOC) monitors global threats 24/7, providing real-time insights and immediate response capabilities.</p>
+                        <div className="h-[350px] sm:h-[400px] lg:h-[450px]">
                            <LiveThreatChart />
                         </div>
                     </Card>
 
                     <Card className="lg:col-span-4">
-                        <motion.div animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="p-3 bg-gray-800 rounded-full w-12 h-12 flex items-center justify-center mb-4 bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 bg-[length:200%_200%]">
-                           <ShieldCheck className="h-6 w-6 text-white" />
+                        <motion.div 
+                            animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }} 
+                            transition={{ duration: 10, repeat: Infinity, ease: "linear" }} 
+                            className="p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4 bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 bg-[length:200%_200%]"
+                        >
+                            <ShieldCheck className="h-6 w-6 text-white" />
                         </motion.div>
-                        <h3 className="font-semibold text-2xl text-white">Why Choose Us?</h3>
-                        <p className="text-gray-400 mt-2">
-                            We prioritize security from the start to ensure customer workloads are always protected. Our expert services offer a security-first approach to safeguard your valuable assets.
+                        <h3 className="font-semibold text-xl md:text-2xl text-white">Why Choose Us?</h3>
+                        <p className="text-gray-400 mt-2 text-sm sm:text-base leading-relaxed">
+                             We prioritize security from the start to ensure customer workloads are always protected. Our expert services offer a security-first approach to safeguard your valuable assets.
                         </p>
                     </Card>
 
                     <Card className="lg:col-span-4">
                         <div className="p-3 bg-gray-800 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                            <Bot className="h-6 w-6 text-purple-400" />
+                             <Bot className="h-6 w-6 text-purple-400" />
                         </div>
-                        <h3 className="font-semibold text-2xl text-white">AI Analyst Co-Pilot</h3>
-                        <p className="text-gray-400 mt-2">
-                            Leverage our generative AI to automate investigation summaries, write response plans, and query data with natural language.
+                        <h3 className="font-semibold text-xl md:text-2xl text-white">AI Analyst Co-Pilot</h3>
+                        <p className="text-gray-400 mt-2 text-sm sm:text-base leading-relaxed">
+                             Leverage our generative AI to automate investigation summaries, write response plans, and query data with natural language.
                         </p>
                     </Card>
 
                 </div>
 
-                 <motion.div initial={{opacity: 0, y: 20}} whileInView={{opacity: 1, y: 0}} viewport={{once: true, amount: 0.2}} transition={{duration: 0.8}} className="text-center my-20 md:my-32">
-                    <h2 className="text-4xl md:text-5xl font-bold text-white">Our Unique Approach To Systems Implementation</h2>
-                    <p className="text-gray-400 mt-4 max-w-3xl mx-auto text-lg">
-                        We offer a comprehensive suite of cybersecurity services designed to protect your organizations critical assets and reputation.
+                 <motion.div 
+                    initial={{opacity: 0, y: 20}} 
+                    whileInView={{opacity: 1, y: 0}} 
+                    viewport={{once: true, amount: 0.2}} 
+                    transition={{duration: 0.8}} 
+                    className="text-center my-20 md:my-28"
+                >
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">Our Unique Approach To Security</h2>
+                    <p className="text-gray-400 mt-4 max-w-3xl mx-auto text-base sm:text-lg">
+                        We offer a comprehensive suite of cybersecurity services designed to protect your organization's critical assets and reputation.
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
                     {services.map((service, index) => (
                         <ServiceCard key={service.title} {...service} delay={index * 0.1} />
                     ))}

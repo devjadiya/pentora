@@ -1,9 +1,9 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, XCircle, Loader, GitCommitHorizontal, MessageSquare, ShieldCheck, Fingerprint, Timer } from 'lucide-react';
+import { CheckCircle2, XCircle, Loader, GitCommitHorizontal, MessageSquare, ShieldCheck, Fingerprint, Timer, ShieldAlert, Radar } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link'; 
+import Link from 'next/link';
 
 // --- Type Definitions ---
 type Test = {
@@ -12,30 +12,33 @@ type Test = {
   icon: React.ReactNode;
 };
 
-type PreCommitStep = { duration: number; type: 'pre-commit'; text: string };
-type CommitStep = { duration: number; type: 'commit'; user: string; action: string };
+type LogStep = { duration: number; type: 'log'; text: string; icon: React.ReactNode };
+type ThreatStep = { duration: number; type: 'threat', name: string; status: 'Detected' | 'Neutralized'; ip: string; };
 type CardStep = { duration: number; type: 'card'; status: string; progress: string; tests?: Test[] };
 type SummaryStep = { duration: number; type: 'summary'; passing: number; failing: number };
 
-type AnimationStep = PreCommitStep | CommitStep | CardStep | SummaryStep;
+type AnimationStep = LogStep | ThreatStep | CardStep | SummaryStep;
 
 
 // --- Configuration for the animation sequence ---
 const animationSteps: AnimationStep[] = [
-  { duration: 1500, type: 'pre-commit', text: 'Pushing new version of the AI system...' },
-  { duration: 1500, type: 'commit', user: 'CEO Sandeep Verma', action: 'committed just now' },
-  { duration: 1500, type: 'card', status: 'Registering commit', progress: '1 of 4' },
-  { duration: 1500, type: 'card', status: 'Running tests', progress: '2 of 4' },
-  { duration: 1500, type: 'card', status: 'Generating insights', progress: '3 of 4' },
-  { duration: 2000, type: 'card', status: 'Test results ready', progress: '4 of 4', tests: [{ name: "Optimal F1 and precision", status: "Passing", icon: <ShieldCheck size={18}/> }, { name: "LLM accurately summarizes context", status: "Passing", icon: <MessageSquare size={18}/> }, { name: "Prevent fake product prompts", status: "Passing", icon: <Fingerprint size={18}/> }, { name: "P99 latency < 5000ms", status: "Failing", icon: <Timer size={18}/> }] },
-  { duration: 3000, type: 'summary', passing: 22, failing: 10 }
+    { duration: 2500, type: 'log', text: 'Initializing global threat monitoring...', icon: <Radar size={18} /> },
+    { duration: 2200, type: 'threat', name: 'DDoS Attempt', status: 'Detected', ip: '203.0.113.45' },
+    { duration: 2200, type: 'threat', name: 'DDoS Attempt', status: 'Neutralized', ip: '203.0.113.45' },
+    { duration: 2200, type: 'threat', name: 'Malware Signature', status: 'Detected', ip: '198.51.100.82' },
+    { duration: 2200, type: 'threat', name: 'Malware Signature', status: 'Neutralized', ip: '198.51.100.82' },
+    { duration: 2500, type: 'card', status: 'Initializing secure boot', progress: '1 of 4' },
+    { duration: 2500, type: 'card', status: 'Executing validation protocols', progress: '2 of 4' },
+    { duration: 2500, type: 'card', status: 'Analyzing threat models', progress: '3 of 4' },
+    { duration: 3000, type: 'card', status: 'System diagnostics complete', progress: '4 of 4', tests: [{ name: "99.9% Uptime SLA", status: "Passing", icon: <ShieldCheck size={18}/> }, { name: "High-Precision Threat Detection", status: "Passing", icon: <MessageSquare size={18}/> }, { name: "Zero-Day Vulnerability Analysis", status: "Passing", icon: <Fingerprint size={18}/> }, { name: "P99 Query Response < 250ms", status: "Failing", icon: <Timer size={18}/> }] },
+    { duration: 4000, type: 'summary', passing: 341, failing: 1 }
 ];
 
 const initialTests: Test[] = [
-    { name: "Optimal F1 and precision", status: "Waiting", icon: <ShieldCheck size={18}/> },
-    { name: "LLM accurately summarizes context", status: "Waiting", icon: <MessageSquare size={18}/> },
-    { name: "Prevent fake product prompts", status: "Waiting", icon: <Fingerprint size={18}/> },
-    { name: "P99 latency < 5000ms", status: "Waiting", icon: <Timer size={18}/> }
+    { name: "99.9% Uptime SLA", status: "Waiting", icon: <ShieldCheck size={18}/> },
+    { name: "High-Precision Threat Detection", status: "Waiting", icon: <MessageSquare size={18}/> },
+    { name: "Zero-Day Vulnerability Analysis", status: "Waiting", icon: <Fingerprint size={18}/> },
+    { name: "P99 Query Response < 250ms", status: "Waiting", icon: <Timer size={18}/> }
 ];
 
 const Hero = () => {
@@ -47,7 +50,7 @@ const Hero = () => {
       const nextStepIndex = (stepIndex + 1) % animationSteps.length;
       setStepIndex(nextStepIndex);
       
-      if (nextStepIndex <= 1) { // Reset tests at the beginning of the cycle
+      if (nextStepIndex === 0) { 
         setTests(initialTests);
       }
     }, animationSteps[stepIndex].duration);
@@ -61,7 +64,8 @@ const Hero = () => {
   }, [stepIndex]);
   
   const currentStep = animationSteps[stepIndex];
-  const cardData = animationSteps.find(s => s.type === 'card' && currentStep.type === 'card' && s.status === currentStep.status) || animationSteps[2];
+  const firstCardStepIndex = animationSteps.findIndex(s => s.type === 'card');
+  const cardData = animationSteps.find(s => s.type === 'card' && currentStep.type === 'card' && s.status === currentStep.status) || animationSteps[firstCardStepIndex];
   
   return (
     <section className="relative w-full text-white pt-20 pb-20 lg:pt-24 lg:pb-32 flex justify-center overflow-hidden min-h-[90vh]">
@@ -108,7 +112,7 @@ const Hero = () => {
                 <div className="absolute top-0 left-0 h-full w-0.5 bg-white/10 z-10">
                 </div>
 
-                {/* Top Node & Commit Text */}
+                {/* Top Node & Action Text */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -116,19 +120,43 @@ const Hero = () => {
                     className="absolute top-[88px] -left-5 flex items-center z-30"
                   >
                     <div className="w-10 h-10 rounded-full bg-[#04010E] border border-white/10 flex items-center justify-center">
-                        <GitCommitHorizontal size={18} />
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={stepIndex}
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.5 }}
+                            >
+                                {currentStep.type === 'log' && currentStep.icon}
+                                {currentStep.type === 'threat' && <ShieldAlert size={18} className={currentStep.status === 'Detected' ? 'text-amber-400' : 'text-green-400'} />}
+                                {(currentStep.type === 'card' || currentStep.type === 'summary') && <GitCommitHorizontal size={18} />}
+                            </motion.div>
+                        </AnimatePresence>
                     </div>
                       <div className="ml-4 text-sm text-gray-300 flex items-center space-x-2 whitespace-nowrap">
-                        <Image src="https://ugc.production.linktr.ee/m7xEJP1xTumDeJkVIqpj_73txc4bV5F26k74A?io=true&size=avatar-v3_0" width={24} height={24} alt="avatar" className="rounded-full" />
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={stepIndex}
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 10 }}
-                                transition={{ duration: 0.3 }}
+                                transition={{ duration: 0.5 }}
                             >
-                              <span><b>{currentStep.type === 'commit' ? currentStep.user : 'CEO Sandeep Verma'}</b> <span className="opacity-70">{currentStep.type === 'commit' ? currentStep.action : 'committed just now'}</span></span>
+                                {currentStep.type === 'log' && (
+                                    <span className="text-gray-300">{currentStep.text}</span>
+                                )}
+                                {currentStep.type === 'threat' && (
+                                    <div className="flex items-center space-x-3">
+                                        <span className="font-mono text-xs bg-white/10 px-2 py-1 rounded">{currentStep.ip}</span>
+                                        <span className="text-gray-300">{currentStep.name}</span>
+                                        <span className={`font-bold text-xs ${currentStep.status === 'Detected' ? 'text-amber-400' : 'text-green-400'}`}>
+                                            {currentStep.status}
+                                        </span>
+                                    </div>
+                                )}
+                                {(currentStep.type === 'card' || currentStep.type === 'summary') && (
+                                    <span className="text-gray-400">Deploying security configuration...</span>
+                                )}
                             </motion.div>
                         </AnimatePresence>
                     </div>
@@ -146,7 +174,7 @@ const Hero = () => {
                         <div className="p-4">
                             <div className="flex justify-between items-center mb-4 px-2">
                                 <div className="flex items-center space-x-2">
-                                    <Image src="https://cdn-icons-png.flaticon.com/512/217/217436.png" width={40} height={40} alt="logo" className="rounded-lg" />
+                                    <Image src="/encoderspro.png" width={80} height={40} alt="logo" />
                                     <AnimatePresence mode="wait">
                                         <motion.div key={stepIndex} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center space-x-2">
                                             {cardData.type === 'card' && cardData.progress && <span className="text-white text-sm">{cardData.progress}</span>}
@@ -209,7 +237,7 @@ const Hero = () => {
 
                   {/* Loader Node */}
                   <AnimatePresence>
-                    {stepIndex >= 2 && stepIndex < 5 && (
+                    {stepIndex >= 5 && stepIndex < 8 && (
                         <motion.div 
                             key="loader-node"
                             initial={{ opacity: 0 }}
