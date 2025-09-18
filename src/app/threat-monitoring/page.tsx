@@ -21,7 +21,12 @@ export default function Dashboard() {
 
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#0a0514] to-[#110f19]">
-            <DashboardHeader />
+            {/* FIX: Made the header sticky below the main navbar (6.5rem = 104px)
+                and set its z-index to 30 to sit below the mobile menu (z-40). */}
+            <div className="sticky top-[6.5rem] z-30">
+                <DashboardHeader />
+            </div>
+
             <main className="flex-1 p-4 sm:p-6 md:p-8">
                 <motion.div
                     variants={containerVariants}
@@ -59,4 +64,3 @@ export default function Dashboard() {
         </div>
     );
 }
-

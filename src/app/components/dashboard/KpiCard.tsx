@@ -23,12 +23,16 @@ export default function KpiCard({ title, value, trend, trendType, Icon }: KpiDat
             className="h-full"
         >
             <Card className="h-full bg-card/50 border-purple-900/50 backdrop-blur-sm">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                {/* FIX: Reduced padding on smaller screens for a more compact header */}
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-2 sm:p-6 sm:pb-2">
                     <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
-                    <Icon className="h-5 w-5 text-muted-foreground" />
+                    {/* FIX: Smaller icon on mobile */}
+                    <Icon className="h-4 w-4 text-muted-foreground sm:h-5 sm:w-5" />
                 </CardHeader>
-                <CardContent>
-                    <div className="text-4xl font-bold font-headline text-white">{value}</div>
+                {/* FIX: Reduced padding for more compact content area */}
+                <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
+                    {/* FIX: Responsive font size for the main value */}
+                    <div className="text-2xl font-bold font-headline text-white sm:text-3xl lg:text-4xl">{value}</div>
                     <div className={cn("text-xs flex items-center", trendColor)}>
                         {TrendIcon && <TrendIcon className="h-4 w-4 mr-1" />}
                         <span>{trend}</span>
@@ -38,4 +42,3 @@ export default function KpiCard({ title, value, trend, trendType, Icon }: KpiDat
         </motion.div>
     );
 }
-

@@ -20,18 +20,22 @@ export default function AlertsBySeverityChart() {
     return (
         <Card className="h-full bg-card/50 border-purple-900/50 backdrop-blur-sm">
             <CardHeader>
-                <CardTitle className="text-lg font-bold text-white">Alerts by Severity</CardTitle>
+                {/* FIX: Smaller font size on mobile and tablets */}
+                <CardTitle className="text-base font-bold text-white md:text-lg">Alerts by Severity</CardTitle>
             </CardHeader>
-            <CardContent className="h-[250px] pb-6">
+            {/* FIX: Reduced height for smaller screens */}
+            <CardContent className="h-[220px] pb-6 md:h-[250px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(139, 92, 246, 0.1)' }}/>
                         <Pie
                             data={alertsBySeverityData}
-                            cx="50%"
+                            // FIX: Centered left to make space for the vertical legend
+                            cx="40%"
                             cy="50%"
-                            innerRadius={60}
-                            outerRadius={80}
+                            // FIX: Reduced radius to fit smaller container
+                            innerRadius={50}
+                            outerRadius={70}
                             fill="#8884d8"
                             paddingAngle={5}
                             dataKey="value"
@@ -41,11 +45,17 @@ export default function AlertsBySeverityChart() {
                                 <Cell key={`cell-${index}`} fill={entry.fill} stroke={entry.fill} />
                             ))}
                         </Pie>
-                         <Legend iconType="circle" formatter={(value) => <span className="text-muted-foreground">{value}</span>}/>
+                         {/* FIX: Vertical legend with smaller text for compact screens */}
+                         <Legend 
+                            iconType="circle" 
+                            layout="vertical" 
+                            verticalAlign="middle" 
+                            align="right"
+                            formatter={(value) => <span className="text-xs text-muted-foreground md:text-sm">{value}</span>}
+                         />
                     </PieChart>
                 </ResponsiveContainer>
             </CardContent>
         </Card>
     );
 }
-

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  BarChart, Book, Briefcase, FileText, GitBranch, LifeBuoy, Rocket, Shield
+  BarChart, Book, Briefcase, ChevronDown, FileText, GitBranch, LifeBuoy, Rocket, Shield
 } from 'lucide-react';
 import AnimatedHamburgerIcon from './AnimatedHamburgerIcon';
 
@@ -48,6 +48,120 @@ const DropdownMenu = ({ items }: { items: { href: string; title: string; descrip
     </div>
   </motion.div>
 );
+
+// ====================================================================
+// =========== ENHANCED & AESTHETIC MOBILE MENU COMPONENT =============
+// ====================================================================
+const MobileMenu = ({ setIsOpen }: { setIsOpen: (isOpen: boolean) => void }) => {
+  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+
+  const handleLinkClick = () => setIsOpen(false);
+
+  // Animation variants for a smoother, staggered effect
+  const menuVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.3 } },
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.06,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+  };
+
+  return (
+    <motion.div
+      variants={menuVariants}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      className="fixed inset-0 bg-[#04010E]/50 backdrop-blur-xl z-40"
+    >
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="flex flex-col h-full p-6 pt-24 overflow-y-auto"
+      >
+        {Object.keys(menuItems).map((key) => (
+          <motion.div variants={itemVariants} key={key} className="border-b border-white/10 last:border-b-0">
+            <motion.button
+              whileTap={{ scale: 0.97 }}
+              onClick={() => setOpenAccordion(openAccordion === key ? null : key)}
+              className="w-full flex justify-between items-center py-4 text-lg font-medium text-gray-200"
+            >
+              <span className="capitalize">{key === 'product' ? 'Solutions' : 'Company'}</span>
+              <motion.div animate={{ rotate: openAccordion === key ? 180 : 0 }} transition={{ duration: 0.3 }}>
+                <ChevronDown size={22} />
+              </motion.div>
+            </motion.button>
+            <AnimatePresence>
+              {openAccordion === key && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="overflow-hidden pl-4"
+                >
+                  <div className="flex flex-col space-y-1 my-2">
+                    {menuItems[key as keyof typeof menuItems].map(item => (
+                       <motion.div whileTap={{ scale: 0.97 }} key={item.title}>
+                         <Link href={item.href} onClick={handleLinkClick} className="flex items-center space-x-4 p-2 rounded-lg hover:bg-white/5">
+                           <span className="text-purple-400">{item.icon}</span>
+                           <span className="text-gray-300">{item.title}</span>
+                         </Link>
+                       </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        ))}
+
+        <motion.div variants={itemVariants} className="border-b border-white/10">
+          <Link href="/tools" onClick={handleLinkClick} className="block py-4 text-lg font-medium text-gray-200">Platform Tools</Link>
+        </motion.div>
+        <motion.div variants={itemVariants} className="border-b border-white/10">
+          <Link href="/threat-monitoring" onClick={handleLinkClick} className="block py-4 text-lg font-medium text-gray-200">Threat Monitoring</Link>
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <Link href="/contact" onClick={handleLinkClick} className="block py-4 text-lg font-medium text-gray-200">Global Contact</Link>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="pt-10 mt-auto flex flex-col space-y-4">
+            <Link href="#login" onClick={handleLinkClick} className="text-center py-3 text-lg font-bold text-white bg-white/10 rounded-full transition-colors hover:bg-white/20">
+              Login
+            </Link>
+            <Link href="/request-form" onClick={handleLinkClick}>
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-3 text-lg font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full"
+                >
+                  Request Demo
+                </motion.button>
+            </Link>
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+// ====================================================================
+// ================= END ENHANCED MOBILE MENU COMPONENT ===============
+// ====================================================================
 
 const Navbar = () => {
   const [activeDropdowns, setActiveDropdowns] = useState<string[]>([]);
@@ -129,12 +243,17 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu Trigger */}
           <div className="md:hidden">
             <AnimatedHamburgerIcon isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
           </div>
         </div>
       </nav>
+      
+      {/* MOBILE MENU RENDER */}
+      <AnimatePresence>
+        {isMenuOpen && <MobileMenu setIsOpen={setIsMenuOpen} />}
+      </AnimatePresence>
     </>
   );
 };
