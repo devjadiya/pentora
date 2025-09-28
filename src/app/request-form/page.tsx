@@ -1,135 +1,175 @@
+// page.js
+
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { FaUser, FaEnvelope, FaPhone, FaBuilding, FaUsers, FaRegListAlt, FaCommentAlt } from 'react-icons/fa';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-// SVG Icon components for form fields
-const UserIcon = ({ className = "w-5 h-5" }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-    <circle cx="12" cy="7" r="4"></circle>
-  </svg>
+const servicesList = [
+  "Application Security & VAPT", "Network Security & VAPT",
+  "Cloud-Native Security", "Data Security & Privacy Compliance",
+  "Infrastructure Security", "Cyber Threat Intelligence (CTI)",
+  "Security Audits & Compliance Readiness", "Cybersecurity Consulting Services",
+  "Red Team Assessments", "Managed Security Services (MSS)",
+  "Radio Frequency - Mesh VAPT", "Scada/IOT Devices VAPT",
+  "Security Awareness & Training Programs", "others"
+];
+
+// Helper component for cleaner input fields
+const FormInput = ({ icon: Icon, name, label, ...props }) => (
+    <div>
+        <label htmlFor={name} className="flex items-center gap-2 text-sm font-medium text-gray-400 mb-2">
+            <Icon className="text-purple-400" />
+            {label}
+        </label>
+        <input
+            id={name}
+            name={name}
+            className="w-full bg-transparent border-b border-gray-600 focus:border-purple-400 focus:ring-0 text-white py-2 outline-none transition-all duration-300"
+            {...props}
+        />
+    </div>
 );
 
-const MailIcon = ({ className = "w-5 h-5" }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-  </svg>
-);
-
-const PhoneIcon = ({ className = "w-5 h-5" }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-  </svg>
-);
-
-
-const RequestDemoPage = () => {
+export default function RequestDemoPage() {
     const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        message: ''
+        name: '', email: '', phone: '', company: '', employees: '', message: '', services: []
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        setIsVisible(true);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevState => ({...prevState, [name]: value}));
+        setFormData(prevState => ({ ...prevState, [name]: value }));
+    };
+
+    const handleServiceToggle = (service) => {
+        setFormData(prev => ({
+            ...prev,
+            services: prev.services.includes(service)
+                ? prev.services.filter(s => s !== service)
+                : [...prev.services, service],
+        }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission logic (e.g., API call)
+        if (!formData.name.trim()) return toast.error('Full Name is required.');
+        if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error('Please enter a valid work email.');
+        if (!formData.phone.trim()) return toast.error('Contact Number is required.');
+        if (!formData.company.trim()) return toast.error('Company Name is required.');
+        if (!formData.employees) return toast.error('Number of Employees is required.');
+        if (formData.services.length === 0) return toast.error('Please select at least one service.');
+        
+        setIsSubmitting(true);
+        toast.success('Thank you! Your request has been submitted.');
         console.log('Form Submitted:', formData);
-        alert('Thank you for your request! We will be in touch shortly.');
+
+        setTimeout(() => {
+            setIsSubmitting(false);
+            setIsSubmitted(true);
+            setTimeout(() => {
+                setIsSubmitted(false);
+                setFormData({
+                    name: '', email: '', phone: '', company: '', employees: '', message: '', services: []
+                });
+            }, 4000);
+        }, 1000);
     };
 
-  return (
-    <><Navbar/>
-    <div className="relative bg-black min-h-screen text-white font-sans overflow-x-hidden">
-      {/* Background Glow Effect */}
-      <div
-        className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vh] max-w-xl max-h-xl 
-                   bg-purple-600/30 rounded-full blur-[150px] lg:blur-[250px] pointer-events-none"
-        aria-hidden="true"
-      ></div>
-       <div
-        className="absolute bottom-[-10%] right-[-10%] w-[70vw] h-[70vh] max-w-2xl max-h-2xl 
-                   bg-indigo-600/30 rounded-full blur-[150px] lg:blur-[250px] pointer-events-none"
-        aria-hidden="true"
-      ></div>
-
-      <main className="relative z-10 flex items-center justify-center min-h-screen p-4 sm:p-8">
-        <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          
-          {/* Left Content: Text */}
-          <div className="text-center lg:text-left pt-16 lg:pt-0">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-400">
-              Secure Your Digital Frontier.
-            </h1>
-            <p className="text-lg text-gray-300 mb-8 max-w-md mx-auto lg:mx-0">
-              Request a personalized demo to see how the world's leading cybersecurity platform can protect your organization from evolving threats.
-            </p>
-          </div>
-
-          {/* Right Content: Form */}
-          <div className="w-full max-w-md mx-auto">
-            <div className="bg-gray-900/40 backdrop-blur-sm border border-purple-800/50 rounded-2xl shadow-2xl shadow-purple-500/10">
-              <div className="p-6 sm:p-8">
-                <h2 className="text-2xl font-bold text-center mb-1">Get a Quote</h2>
-                <p className="text-center text-gray-400 mb-6">Fill out the form to get started.</p>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Name Input */}
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <UserIcon className="w-5 h-5 text-gray-400" />
+    return (
+        <>
+            <Navbar />
+            <div className="aurora-background font-sans bg-[#110f19] text-white min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
+                <style jsx global>{`
+                    /* Aurora background styles remain the same */
+                    .aurora-background::before, .aurora-background::after { content: ''; position: absolute; z-index: 0; }
+                    .aurora-background::before { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150%; padding-bottom: 150%; background-image: radial-gradient(circle at 15% 25%, rgba(168, 85, 247, 0.15), transparent 40%), radial-gradient(circle at 85% 75%, rgba(109, 40, 217, 0.2), transparent 40%); animation: rotateAurora 25s linear infinite; filter: blur(60px); }
+                    .aurora-background::after { inset: -10px; background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.8; }
+                    @keyframes rotateAurora { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+                `}</style>
+                <ToastContainer position="bottom-right" autoClose={5000} theme="dark" />
+                
+                {/* MODIFIED: Main container now uses a two-column grid layout */}
+                <main className={`relative z-10 w-full max-w-6xl mx-auto grid md:grid-cols-2 gap-16 lg:gap-24 items-center transition-opacity duration-1000 ease-in ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                    
+                    {/* Left Column: Form */}
+                    <div className="w-full">
+                        {isSubmitted ? (
+                            <div className="text-center py-10">
+                                <h3 className="font-bold text-2xl text-green-400">Thank You!</h3>
+                                <p className="text-gray-300 mt-2">Your quote request has been sent successfully. We'll be in touch soon.</p>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <h2 className="text-4xl lg:text-5xl font-bold text-white mb-8">Get a Quote</h2>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
+                                    <FormInput icon={FaUser} name="name" label="Full Name" type="text" placeholder="John Doe" value={formData.name} onChange={handleInputChange} />
+                                    <FormInput icon={FaEnvelope} name="email" label="Work Email" type="email" placeholder="john.doe@company.com" value={formData.email} onChange={handleInputChange} />
+                                    <FormInput icon={FaPhone} name="phone" label="Contact Number" type="tel" placeholder="+1 (555) 123-4567" value={formData.phone} onChange={handleInputChange} />
+                                    <FormInput icon={FaBuilding} name="company" label="Company Name" type="text" placeholder="Your Company Inc." value={formData.company} onChange={handleInputChange} />
+                                </div>
+                                <FormInput icon={FaUsers} name="employees" label="Number of Employees" type="number" placeholder="e.g., 500" value={formData.employees} onChange={handleInputChange} />
+                                
+                                <div>
+                                    <label className="flex items-center gap-2 text-sm font-medium text-gray-400 mb-3">
+                                        <FaRegListAlt className="text-purple-400" />
+                                        Select Services *
+                                    </label>
+                                    <div className="flex flex-wrap gap-2">
+                                        {servicesList.map((service) => (
+                                            <button type="button" key={service} onClick={() => handleServiceToggle(service)}
+                                                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
+                                                    formData.services.includes(service)
+                                                    ? 'bg-purple-600 text-white shadow-md shadow-purple-500/30'
+                                                    : 'bg-gray-800/60 text-gray-300 hover:bg-gray-700'
+                                                }`}>
+                                                {service}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="message" className="flex items-center gap-2 text-sm font-medium text-gray-400 mb-2">
+                                        <FaCommentAlt className="text-purple-400" />
+                                        Tell us about your needs
+                                    </label>
+                                    <textarea id="message" name="message" value={formData.message} onChange={handleInputChange} rows={3}
+                                        className="w-full bg-transparent border-b border-gray-600 focus:border-purple-400 focus:ring-0 text-white py-2 outline-none transition-all duration-300 resize-none"
+                                        placeholder="(Optional) Provide any specific details here..."
+                                    ></textarea>
+                                </div>
+                                
+                                <div className="pt-2">
+                                    <button type="submit" disabled={isSubmitting}
+                                        className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100">
+                                        {isSubmitting ? 'Submitting...' : 'Submit Request'}
+                                    </button>
+                                </div>
+                            </form>
+                        )}
                     </div>
-                    <input type="text" name="name" placeholder="Full Name" required className="w-full pl-10 p-3 bg-gray-800/60 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" onChange={handleInputChange} value={formData.name} />
-                  </div>
-                  {/* Email Input */}
-                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <MailIcon className="w-5 h-5 text-gray-400" />
+                    
+                    {/* Right Column: Text Content */}
+                    <div className="text-center md:text-left">
+                        <h1 className="text-4xl lg:text-5xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-400">
+                            Secure Your Digital Frontier.
+                        </h1>
+                        <p className="mt-6 text-lg text-gray-400">
+                            Request a personalized quote to see how our leading cybersecurity platform can protect your organization from evolving threats.
+                        </p>
                     </div>
-                    <input type="email" name="email" placeholder="Work Email" required className="w-full pl-10 p-3 bg-gray-800/60 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" onChange={handleInputChange} value={formData.email} />
-                  </div>
-                   {/* Phone Input */}
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <PhoneIcon className="w-5 h-5 text-gray-400" />
-                    </div>
-                    <input type="tel" name="phone" placeholder="Phone Number" required className="w-full pl-10 p-3 bg-gray-800/60 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" onChange={handleInputChange} value={formData.phone} />
-                  </div>
-                   {/* Company Input */}
-                  <div className="relative">
-                    <input type="text" name="company" placeholder="Company Name" required className="w-full p-3 bg-gray-800/60 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" onChange={handleInputChange} value={formData.company} />
-                  </div>
-                  {/* Message Textarea */}
-                  <div>
-                    <textarea name="message" placeholder="Tell us about your needs (optional)" rows="3" className="w-full p-3 bg-gray-800/60 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition" onChange={handleInputChange} value={formData.message}></textarea>
-                  </div>
-
-                  <button type="submit"
-                    className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold 
-                               py-3 px-8 rounded-lg text-lg transition-transform duration-300
-                               transform hover:scale-105 shadow-[0_0_20px_rgba(168,85,247,0.5)]"
-                  >
-                    Submit Request
-                  </button>
-                </form>
-              </div>
+                </main>
             </div>
-          </div>
-
-        </div>
-      </main>
-    </div>
-    <Footer/>
-    </>
-  );
-};
-
-export default RequestDemoPage;
-
+            <Footer />
+        </>
+    );
+}

@@ -4,7 +4,8 @@ import {
     FaXTwitter,
     FaGithub,
     FaDiscord,
-    FaLinkedin
+    FaLinkedin,
+    FaInstagram
 } from 'react-icons/fa6'; // or use 'react-icons/fa' if FaXTwitter is not available
 import { Target } from 'lucide-react';
 
@@ -20,7 +21,7 @@ const footerSections = [
     {
         title: 'Resources',
         links: [
-            { name: 'Live Threat Feed', href: '/dashboard' },
+            { name: 'Live Threat Feed', href: '/threat-monitoring' },
             { name: 'Security Tools', href: '/tools' },
             { name: 'Get a Quote', href: '/request-form' },
         ],
@@ -58,18 +59,23 @@ const Footer = () => {
                             />
                         </a>
                         <div className="flex items-center gap-4">
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300" aria-label="X (Twitter)">
-                                <FaXTwitter size={20} />
+                            <a
+                                href="https://www.instagram.com/encoderspro/"
+                                className="text-gray-400 hover:text-white transition-colors duration-300"
+                                aria-label="Instagram"
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                <FaInstagram size={20} />
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300" aria-label="Discord">
-                                <FaDiscord size={20} />
-                            </a>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300" aria-label="GitHub">
-                                <FaGithub size={20} />
-                            </a>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300" aria-label="LinkedIn">
+                            <a
+                                href="https://www.linkedin.com/company/encoderspro-private-limited/posts/?feedView=all"
+                                className="text-gray-400 hover:text-white transition-colors duration-300"
+                                aria-label="LinkedIn"
+                                target="_blank"
+                                rel="noopener noreferrer">
                                 <FaLinkedin size={20} />
                             </a>
+
                         </div>
                         <a
                             href="#"
