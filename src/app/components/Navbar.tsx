@@ -150,7 +150,7 @@ const MobileMenu = ({ setIsOpen }: { setIsOpen: (isOpen: boolean) => void }) => 
                   whileTap={{ scale: 0.98 }}
                   className="w-full py-3 text-lg font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full"
                 >
-                  Request Demo
+                  Get a Quote
                 </motion.button>
             </Link>
         </motion.div>
@@ -238,7 +238,7 @@ const Navbar = () => {
                 whileTap={{ scale: 0.95 }}
                 className="px-6 py-2 text-sm font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full transition-transform"
               >
-                Request Demo
+                Get a Quote
               </motion.button>
             </Link>
           </div>

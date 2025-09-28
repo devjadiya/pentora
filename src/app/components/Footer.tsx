@@ -22,7 +22,7 @@ const footerSections = [
         links: [
             { name: 'Live Threat Feed', href: '/dashboard' },
             { name: 'Security Tools', href: '/tools' },
-            { name: 'Request Demo', href: '/request-form' },
+            { name: 'Get a Quote', href: '/request-form' },
         ],
     },
     {

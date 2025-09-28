@@ -69,7 +69,7 @@ const CTA = () => {
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 font-bold text-white bg-gradient-to-b from-purple-600 to-indigo-700 rounded-full shadow-lg shadow-purple-500/20"
             >
-              Request demo
+              Get a Quote
             </motion.button>
           </a>
         </div>

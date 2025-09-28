@@ -78,7 +78,7 @@ const RequestDemoPage = () => {
           <div className="w-full max-w-md mx-auto">
             <div className="bg-gray-900/40 backdrop-blur-sm border border-purple-800/50 rounded-2xl shadow-2xl shadow-purple-500/10">
               <div className="p-6 sm:p-8">
-                <h2 className="text-2xl font-bold text-center mb-1">Get a Demo</h2>
+                <h2 className="text-2xl font-bold text-center mb-1">Get a Quote</h2>
                 <p className="text-center text-gray-400 mb-6">Fill out the form to get started.</p>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {/* Name Input */}
@@ -116,7 +116,7 @@ const RequestDemoPage = () => {
                                py-3 px-8 rounded-lg text-lg transition-transform duration-300
                                transform hover:scale-105 shadow-[0_0_20px_rgba(168,85,247,0.5)]"
                   >
-                    Request Your Demo
+                    Submit Request
                   </button>
                 </form>
               </div>
