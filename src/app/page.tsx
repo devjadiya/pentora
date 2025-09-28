@@ -9,12 +9,14 @@ import CardSection from "./components/CardSection";
 import ActionCard from "./components/ActionCards";
 import Testimonials from "./components/Testimonials";
 import SuperCard from "./components/SuperCard";
+import HeroSearch from "./components/Hero Search";
 
 export default function Home() {
   return (
     <div className="bg-[#04010E]">
       <Navbar />
       <main>
+        <HeroSearch/>
         <Hero />
           <Clients />
           {/* <Features /> */}

@@ -55,9 +55,9 @@ const Templates = () => {
           className="text-center max-w-3xl mx-auto"
         >
           <h3 className="text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-3 tracking-wider uppercase">Our Expertise</h3>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4">Comprehensive Security Solutions</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4">Comprehensive Solutions</h2>
           <p className="text-md md:text-lg text-gray-400 leading-relaxed">
-            Full-spectrum cybersecurity services: assessments, threat intel, compliance & response readiness.
+            Full-spectrum services: assessments, threat intel, compliance & response readiness.
           </p>
         </motion.div>
 
@@ -71,7 +71,7 @@ const Templates = () => {
           {/* Left Column - Service Menu */}
           <div className="lg:col-span-4 flex flex-col gap-2">
             {/* Desktop Vertical Menu */}
-            <div className="lg:flex hidden flex-col gap-2">
+            <div className="lg:flex hidden flex-col gap-2 max-h-[660px] overflow-y-auto pr-2">
               {services.map(service => (
                 <button
                   key={service.title}
