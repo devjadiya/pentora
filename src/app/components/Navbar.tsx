@@ -4,7 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  BarChart, Book, Briefcase, ChevronDown, FileText, GitBranch, LifeBuoy, Rocket, Shield
+  BarChart, Book, Briefcase, ChevronDown, FileText, GitBranch, LifeBuoy, Rocket, Shield,
+  Target
 } from 'lucide-react';
 import AnimatedHamburgerIcon from './AnimatedHamburgerIcon';
 
@@ -22,6 +23,8 @@ const menuItems = {
     { title: "Our Legacy", description: "Excellence in global cybersecurity", href: "/threat-monitoring", icon: <LifeBuoy size={16} /> },
     { title: "Elite Careers", description: "Work with the industry's best minds", href: "/careers", icon: <Briefcase size={16} /> },
     { title: "Fortress Security", description: "Zero-trust by design, always", href: "#", icon: <Shield size={16} /> },
+    { title: "Download Brochure", description: "All in One, visual insights", href: "PENTORA-Cybersecurity.pdf", icon: <Book size={16} /> },
+
   ]
 };
 
