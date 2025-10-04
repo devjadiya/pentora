@@ -60,7 +60,7 @@ export default function RequestDemoPage() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.name.trim()) return toast.error('Full Name is required.');
         if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error('Please enter a valid work email.');
@@ -72,6 +72,25 @@ export default function RequestDemoPage() {
         setIsSubmitting(true);
         toast.success('Thank you! Your request has been submitted.');
         console.log('Form Submitted:', formData);
+
+         try {
+                const response = await fetch('/api/submit-quote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+                });
+
+                if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Success:', data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
 
         setTimeout(() => {
             setIsSubmitting(false);
